@@ -5,9 +5,7 @@ header("Content-Type: text/html; charset=utf8");
 //     exit("错误执行");
 // }//判断是否有submit操作
 if (isset($_POST['submit'])) {
-    checkNewUser();
-} else if (isset($_POST['submit1'])) {
-    exit("验证码");
+    checkPwd();
 } else {
     exit("错误执行");
 }
@@ -47,25 +45,9 @@ function singup()
     mysqli_close($con); //关闭数据库
 }
 
-function checkNewUser()
+function checkPwd()
 {
-    $name = $_POST['name']; //post获取表单里的name
-    include 'connect.php'; //链接数据库
-    mysqli_query($con, "set names utf8"); //utf8 设为对应的编码
-    $sql = "select * from user where username = '$name'"; //检测数据库是否有对应的username和password的sql
-    $result = $con->query($sql);
-    $rows = mysqli_num_rows($result); //返回一个数值
-    // echo $rows;
-    if ($rows != "") {
-        echo "该账户已存在，请修改用户名！";
-        header("refresh:0;url=signup.html"); //跳转至注册页面
-    } else if ($_POST['password'] != $_POST['password1']) {
-        // echo "注册成功"; //成功输出注册成功
-        echo "请检查您的密码";
-        header("refresh:0;url=signup.html"); //跳转至注册页面
-    } else {
-        singup(); //注册
-    }
+    $pwd=$_POST['password'];
+    $pwd1=$_POST['password1'];
 
-    mysqli_close($con); //关闭数据库
 }

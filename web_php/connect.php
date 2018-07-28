@@ -8,7 +8,7 @@
     if(!$con){
         die("can't connect".mysqli_error());//如果链接失败输出错误
     }else{
-        echo('连接成功！');
+        // echo('连接成功！');
     }
 
 ?>
