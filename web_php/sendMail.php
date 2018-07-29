@@ -10,7 +10,7 @@
  * 当前仅测试了163邮箱，qq邮箱测试失败，可能原因见下。有空测试outlook和gmail
  */
 
-// echo postmail('15658050107@163.com', 'test', "你好");
+// echo postmail('15658050107@163.com', '注册', 'token', 'name', 'signup');
 
 /**
  * Undocumented function
@@ -33,7 +33,7 @@ function postmail($to, $subject = '', $body = '', $username = '', $type = '')
     // $body = str_replace("[\]", '', $body); //对邮件内容进行必要的过滤
     $mail->CharSet = "utf-8"; //设定邮件编码，默认ISO-8859-1，参考代码使用GBK，依旧乱码，使用utf-8可以解决
     $mail->IsSMTP(); // 设定使用SMTP服务
-    // $mail->SMTPDebug  = 2;                     // 启用SMTP调试功能（好像是数字越大显示信息越详细）
+    // $mail->SMTPDebug = 3; // 启用SMTP调试功能（好像是数字越大显示信息越详细）
     // 官方GitHub（https://github.com/PHPMailer/PHPMailer/wiki/SMTP-Debugging）介绍2最实用。
     // 1输出客户端发送的消息。2加上从服务器收到的响应（这是最有用的设置）。
     $mail->SMTPAuth = true; // 启用 SMTP 验证功能
@@ -42,7 +42,7 @@ function postmail($to, $subject = '', $body = '', $username = '', $type = '')
     $mail->Host = 'smtp.qq.com'; // SMTP 服务器
     $mail->Port = 465; // SMTP服务器的端口号
     $mail->Username = '747346001@qq.com'; // SMTP服务器用户名
-    $mail->Password = 'nhhxybchxawibeec'; // SMTP服务器密码（亲测邮箱密码不行，需要用授权码）
+    $mail->Password = 'inwpmndlayzmbfhf'; // SMTP服务器密码（亲测邮箱密码不行，需要用授权码）
     // qq邮箱测试失败，提示验证失败。更换163邮箱同时使用授权码后成功。未测试qq邮箱是否是因为授权码问题
     // 之后有时间再去测试gmail和outlook邮箱
     $mail->SetFrom('747346001@qq.com', '东铎'); //设置收件人看到的邮箱和用户

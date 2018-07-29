@@ -38,8 +38,8 @@ function singup()
     if (!$result) {
         die(mysqli_error($con)); //如果sql执行失败输出错误
     } else {
-        // echo "注册成功"; //成功输出注册成功
-        postmail('15658050107@163.com', 'test', $token, $name, 'signup');
+        echo "注册成功"; //成功输出注册成功
+        postmail($email, '注册', $token, $name, 'signup');
         header("refresh:0;url=checkMail.html"); //如果成功跳转至登陆页面
         exit;
     }

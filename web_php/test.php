@@ -124,12 +124,12 @@ if (isset($_SESSION['name']) && !empty($_SESSION['name'])) {
                 $mysql = mysqli_connect(SQL_HOST,SQL_USER,SQL_PASSWORD,SQL_DATABASE,SQL_PORT) or  die(mysqli_error());
                 //连接不上切换数据库
                 //mysqli_select_db(SQLDATABASE);
-                mysqli_query($mysql, "set names utf8"); //utf8 设为对应的编码
+                
 
                 //查询语句
                 $sql = "select* from mi_products";
-                //查询
-                $results = $mysql -> query($sql);
+                $results = mysqli_query($mysql, $sql); //utf8 设为对应的编码//查询
+                // $results = $mysql -> query($sql);
 
                 // print_r($results);
                 //遍历循环打印数据

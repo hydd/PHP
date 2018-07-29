@@ -56,13 +56,21 @@ function changePwd($verify = '')
     // echo $row;
     if ($row != '') {
         $msg = '账户验证成功。';
-        showPwd($verify);
+        setSession($verify);
+        // showPwd($verify);
+        header("refresh:1;url=changePwd.html"); //如果成功跳转至登陆页面
     } else {
         $msg = '账户尚未激活，请先进入邮箱激活账户。';
         header("refresh:1;url=login.html"); //如果成功跳转至登陆页面
     }
     echo $msg;
 
+}
+
+function setSession($verify)
+{
+    session_start();
+    $_SESSION['verify'] = $verify;
 }
 
 function showPwd($verify = '')
