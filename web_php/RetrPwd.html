@@ -2,21 +2,45 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
+    <!-- <meta charset="UTF-8"> -->
+    <meta name="viewport" charset="UTF-8" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <title>密码找回</title>
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+        crossorigin="anonymous">
 </head>
+<div class="container theme-showcase" role="main">
+    <div class="jumbotron">
+        <h1 align="center">密码找回</h1>
+    </div>
+</div>
 
 <body>
-    <form name="retrpwd" action="retrpwd.php" method="post">
-        <p>请输入您的用户名：
-            <input type=text name="name">
-        </p>
-        <p>输入您的注册邮箱：
-            <input type="email" name="email">
-        </p>
-        <p>
-            <input type="submit" name="submit" value="提交">
-        </p>
+    <form align="center" name="retrpwd" action="retrpwd.php" method="post">
+        <div class="form-group">
+            <label for="inputText3" class=" col-md-offset-2 col-md-2 control-label">用户名</label>
+            <!-- <div class="col-md-2"></div> -->
+            <div class="col-md-4">
+                <input type="text" class="form-control" id="inputText3" name="name" placeholder="请输入用户名">
+            </div>
+            <div class="col-md-2"></div>
+        </div>
+        <br>
+        <br></br>
+        </br>
+
+        <div class="form-group">
+            <label for="inputEmail3" class="col-md-offset-2 col-md-2 control-label">邮箱</label>
+            <div class="col-md-4">
+                <input type="email" class="form-control" id="inputEmail3" name="email" placeholder="请输入您的邮箱">
+            </div>
+        </div>
+        <br></br>
+        <br></br>
+        <div class="form-group">
+            <div class="col-md-offset-1 col-md-10">
+                <button type="submit" class="btn btn-default btn-lg active" name="submit">提&emsp;交</button>
+            </div>
+        </div>
     </form>
 </body>
 
