@@ -32,13 +32,16 @@ function singup()
     $password = $_POST['password']; //post获取表单里的password
     $token = md5($name . $password . time());
     $email = trim($_POST['email']);
+    $regtime = time();
+    $restime = 0;
+    $respwd = 0;
     // echo $email;
     $status = 0;
     include 'connect.php'; //链接数据库
     include 'sendMail.php'; //发送激活邮件
     mysqli_query($con, "set names utf8"); //utf8 设为对应的编码
     // $q = "insert into user(id,username,password,email,token,status) values (null,'$name','$password','$email','$token',$status)"; //向数据库插入表单传来的值的sql
-    $q = "insert into user(id,username,password,email,token,status) values (null,'$name','$password','$email','$token','$status')"; //向数据库插入表单传来的值的sql
+    $q = "insert into user(id,username,password,email,token,status,regtime,restime,respwd) values (null,'$name','$password','$email','$token','$status','$regtime','$restime','$respwd')"; //向数据库插入表单传来的值的sql
     //查询
     $result = $con->query($q);
 

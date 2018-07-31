@@ -29,9 +29,12 @@ function retrpwd()
     } else {
         echo "请点击邮箱链接重置密码！"; //成功输出注册成功
         echo "3秒后将跳转登录界面！";
+        $nowtime = time();
+        $sql = "update user set respwd='1',restime='$nowtime' where username='$name'";
+        $con->query($sql);
         $token = $rows['token'];
         // postmail('15658050107@163.com', '密码找回', $token, $name, 'retrpwd');
-        postmail($email, '密码找回', $token, $name, 'retrpwd');        
+        postmail($email, '密码找回', $token, $name, 'retrpwd');
         header("refresh:3;url=login.html"); //如果成功跳转至登陆页面
         exit;
     }
