@@ -28,11 +28,11 @@ function retrpwd()
         echo "用户名或邮箱输入错误！";
     } else {
         echo "请点击邮箱链接重置密码！"; //成功输出注册成功
-        echo "5秒后将跳转登录界面！";
+        echo "3秒后将跳转登录界面！";
         $token = $rows['token'];
         // postmail('15658050107@163.com', '密码找回', $token, $name, 'retrpwd');
         postmail($email, '密码找回', $token, $name, 'retrpwd');        
-        header("refresh:1000;url=login.html"); //如果成功跳转至登陆页面
+        header("refresh:3;url=login.html"); //如果成功跳转至登陆页面
         exit;
     }
 

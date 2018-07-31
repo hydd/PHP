@@ -1,6 +1,6 @@
 <?php
 session_start();
-// header("Content-Type: text/html; charset=utf8");
+header("Content-Type: text/html; charset=utf8");
 
 if (isset($_POST['submit'])) {
     // if (isset($_REQUEST['autocode'])) {
