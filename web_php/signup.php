@@ -1,16 +1,23 @@
 <?php
-header("Content-Type: text/html; charset=utf8");
+session_start();
+// header("Content-Type: text/html; charset=utf8");
 
-// if(!isset($_POST['submit'])||!isset($_POST['submit1'])){
-//     exit("错误执行");
-// }//判断是否有submit操作
 if (isset($_POST['submit'])) {
-    checkNewUser();
-} else if (isset($_POST['submit1'])) {
-    exit("验证码");
+    // if (isset($_REQUEST['autocode'])) {
+    //     // session_start();
+    //     if (strtolower($_POST['autocode']) != $_SESSION['authcode']) {
+    //         header("refresh:1;url=signup.html"); //返回注册界面
+    //         exit("验证码错误,请重新输入！");
+    //     } else {
+    //         isNull();
+    //     }
+    // }
+    isNull();
 } else {
-    exit("错误执行");
+    header("refresh:1;url=signup.html"); //返回注册界面
+    exit("请先填写注册信息，错误执行");
 }
+
 // function checkmail()
 // {
 //     $email = $_POST['email'];
@@ -68,4 +75,30 @@ function checkNewUser()
     }
 
     mysqli_close($con); //关闭数据库
+}
+
+function isNull()
+{
+    $name = $_POST['name'];
+    $password = $_POST['password'];
+    $password1 = $_POST['password1'];
+    $email = $_POST['email'];
+    if ($name && $password && $password1 && $email) {
+        isCode();
+    } else {
+        echo "<script>alert('请完整填写所有信息！'); history.go(-1);</script>";
+    }
+}
+
+function isCode()
+{
+    if (isset($_REQUEST['autocode'])) {
+        // session_start();
+        if (strtolower($_POST['autocode']) != $_SESSION['authcode']) {
+            header("refresh:1;url=signup.html"); //返回注册界面
+            exit("验证码错误,请重新输入！");
+        } else {
+            checkNewUser();
+        }
+    }
 }

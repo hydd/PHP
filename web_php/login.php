@@ -4,6 +4,13 @@ session_start();
 if (!isset($_POST["submit"])) {
     exit("错误执行");
 } //检测是否有submit操作
+if (isset($_REQUEST['autocode'])) {
+    // session_start();
+    if (strtolower($_POST['autocode']) != $_SESSION['authcode']) {
+        echo "<script>alert('请输入正确的验证码！'); history.go(-1);</script>";
+        exit();        
+    }
+}
 
 include 'connect.php'; //链接数据库
 $name = $_POST['name']; //post获得用户名表单值
@@ -32,20 +39,24 @@ if ($name && $passowrd) { //如果用户名和密码都不为空
         }
 
     } else {
-        echo "用户名或密码错误";
-        echo "
-                    <script>
-                            setTimeout(function(){window.location.href='login.html';},1000);
-                    </script>
+        echo "<script>alert('用户名或密码错误！'); history.go(-1);</script>";
 
-                "; //如果错误使用js 1秒后跳转到登录页面重试;
+        // echo "用户名或密码错误";
+        // echo "
+        //             <script>
+        //                     setTimeout(function(){window.location.href='login.html';},1000);
+        //             </script>
+
+        //         "; //如果错误使用js 1秒后跳转到登录页面重试;
     }
 } else { //如果用户名或密码有空
-    echo "表单填写不完整";
-    echo "
-                      <script>
-                            setTimeout(function(){window.location.href='login.html';},1000);
-                      </script>";
+    // echo "表单填写不完整";
+    // echo "
+    //                   <script>
+    //                         setTimeout(function(){window.location.href='login.html';},1000);
+    //                   </script>";
+    echo "<script>alert('请正确填写用户名和密码！'); history.go(-1);</script>";
+
 
     //如果错误使用js 1秒后跳转到登录页面重试;
 }

@@ -24,7 +24,7 @@
             </div>
             <div class="col-md-2"></div>
         </div>
-        <br>
+        <!-- <br> -->
         <br></br>
         </br>
         <div class="form-group">
@@ -33,18 +33,35 @@
                 <input type=password class="form-control" id='inputPassword3' name="password" placeholder="请输入密码">
             </div>
         </div>
-        <br>
+        <!-- <br> -->
         <br></br>
-        </br>
+        <div class="form-group">
+            <label for="inputText3" class="col-md-offset-2 col-md-2 control-label">验证码</label>
+            <div class="col-md-4">
+                <!-- <img border="1" src="captcha.php?r=" <?php echo rand(); ?> width="100" height="30" /></p> -->
+                <img border="1" class="col-md-offset-1" id="capthcha_img" onclick="this.src='captcha.php?r='+Math.random()" src="captcha.php?r="<?php echo rand();?> width="100" height="30"  /> 
+                <!-- <a class="btn btn-default col-md-offset-3" href="javascript:void(0)" onclick="document.getElementById('capthcha_img').src='captcha.php?r='+Math.random()">点击刷新</a> -->
+            </div>
+        </div>
+        <!-- <br> -->
+        <br></br>
+        <div class="form-group">
+            <label for="inputText3" class=" col-md-offset-2 col-md-2 control-label">请输入验证码</label>
+            <!-- <div class="col-md-2"></div> -->
+            <div class="col-md-4">
+                <!-- <input type="text" name="autocode" value="" /> -->
+                <input type="text" class="form-control" id="inputText3" name="autocode" placeholder="请输入验证码">
+            </div>
+            <div class="col-md-2"></div>
+        </div>
+        <br></br>
         <div class="form-group">
             <div class="col-md-offset-1 col-md-10">
                 <!-- <input type="submit" name="submit" value="登录"> -->
                 <button type="submit" class="btn btn-default btn-lg active" name="submit">登&emsp;录</button>
             </div>
         </div>
-        <br>
         <br></br>
-        </br>
         <div class="form-group">
             <div class=" col-md-10">
                 <!-- <input type="submit" name="submit" value="登录"> -->
