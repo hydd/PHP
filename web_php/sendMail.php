@@ -45,7 +45,7 @@ function postmail($to, $subject = '', $body = '', $username = '', $type = '')
     $mail->Password = 'inwpmndlayzmbfhf'; // SMTP服务器密码（亲测邮箱密码不行，需要用授权码）
     // qq邮箱测试失败，提示验证失败。更换163邮箱同时使用授权码后成功。未测试qq邮箱是否是因为授权码问题
     // 之后有时间再去测试gmail和outlook邮箱
-    $mail->SetFrom('747346001@qq.com', '东铎'); //设置收件人看到的邮箱和用户
+    $mail->SetFrom('747346001@qq.com', 'YYCX'); //设置收件人看到的邮箱和用户
     // $mail->AddReplyTo('xxx@xxx.xxx','who');
     $mail->Subject = $subject;
     $mail->Body = "亲爱的" . $username . "：<br/>感谢您在我站注册了新帐号。<br/>请点击链接激活您的帐号。<br/>

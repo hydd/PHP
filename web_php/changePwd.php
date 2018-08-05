@@ -35,8 +35,8 @@ function updatePwd($verify)
             die(mysqli_error($con)); //如果sql执行失败输出错误
         } else {
             // echo "注册成功"; //成功输出注册成功
-            echo '密码修改成功，请使用新密码登陆！';
             header("refresh:0;url=login.html"); //如果成功跳转至登陆页面
+            echo '密码修改成功，请使用新密码登陆！';
             exit;
         }
 

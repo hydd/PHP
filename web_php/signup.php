@@ -30,6 +30,7 @@ function singup()
 {
     $name = $_POST['name']; //post获取表单里的name
     $password = $_POST['password']; //post获取表单里的password
+    $md5pwd = md5($password);
     $token = md5($name . $password . time());
     $email = trim($_POST['email']);
     $regtime = time();
@@ -37,20 +38,21 @@ function singup()
     $respwd = 0;
     // echo $email;
     $status = 0;
+    $icon = rand(10001, 10013);
     include 'connect.php'; //链接数据库
     include 'sendMail.php'; //发送激活邮件
     mysqli_query($con, "set names utf8"); //utf8 设为对应的编码
     // $q = "insert into user(id,username,password,email,token,status) values (null,'$name','$password','$email','$token',$status)"; //向数据库插入表单传来的值的sql
-    $q = "insert into user(id,username,password,email,token,status,regtime,restime,respwd) values (null,'$name','$password','$email','$token','$status','$regtime','$restime','$respwd')"; //向数据库插入表单传来的值的sql
+    $q = "insert into user(id,username,password,email,token,status,regtime,restime,respwd,icon) values (null,'$name','$md5pwd','$email','$token','$status','$regtime','$restime','$respwd','$icon')"; //向数据库插入表单传来的值的sql
     //查询
     $result = $con->query($q);
 
     if (!$result) {
         die(mysqli_error($con)); //如果sql执行失败输出错误
     } else {
-        echo "注册成功"; //成功输出注册成功
         postmail($email, '注册', $token, $name, 'signup');
         header("refresh:0;url=checkMail.html"); //如果成功跳转至登陆页面
+        echo "注册成功"; //成功输出注册成功
         exit;
     }
 
@@ -67,12 +69,12 @@ function checkNewUser()
     $rows = mysqli_num_rows($result); //返回一个数值
     // echo $rows;
     if ($rows != "") {
-        echo "该账户已存在，请修改用户名！";
         header("refresh:0;url=signup.html"); //跳转至注册页面
+        echo "该账户已存在，请修改用户名！";
     } else if ($_POST['password'] != $_POST['password1']) {
         // echo "注册成功"; //成功输出注册成功
-        echo "请检查您的密码";
         header("refresh:0;url=signup.html"); //跳转至注册页面
+        echo "请检查您的密码";
     } else {
         singup(); //注册
     }

@@ -5,6 +5,15 @@
     <!-- <meta charset="UTF-8"> -->
     <meta name="viewport" charset="UTF-8" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <title>登录</title>
+    <style>
+        #embed-captcha {
+            width: 300px;
+            margin: 0 auto;
+        }
+        #notice {
+            color: red;
+        }
+    </style>
     <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
         crossorigin="anonymous">
 </head>
@@ -26,7 +35,7 @@
         </div>
         <!-- <br> -->
         <br></br>
-        </br>
+        <br></br>
         <div class="form-group">
             <label for="inputPassword3" class=" col-md-offset-2 col-md-2 control-label">密码</label>
             <div class="col-md-4">
@@ -35,34 +44,36 @@
         </div>
         <!-- <br> -->
         <br></br>
-        <div class="form-group">
+        <!-- <div class="form-group">
             <label for="inputText3" class="col-md-offset-2 col-md-2 control-label">验证码</label>
             <div class="col-md-4">
-                <!-- <img border="1" src="captcha.php?r=" <?php echo rand(); ?> width="100" height="30" /></p> -->
-                <img border="1" class="col-md-offset-2" id="capthcha_img" onclick="this.src='captcha.php?r='+Math.random()" src="captcha.php?r="
-                    <?php echo rand();?>>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;看不清？点击图片刷新</img>
-                <!-- <a class="btn btn-default col-md-offset-3" href="javascript:void(0)" onclick="document.getElementById('capthcha_img').src='captcha.php?r='+Math.random()">点击刷新</a> -->
+                <img border="1" class="col-md-offset-2" id="capthcha_img" onclick="this.src='captcha.php'" src="captcha.php">&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;看不清？点击图片刷新</img>
             </div>
         </div>
-        <!-- <br> -->
         <br></br>
         <div class="form-group">
             <label for="inputText3" class=" col-md-offset-2 col-md-2 control-label">请输入验证码</label>
-            <!-- <div class="col-md-2"></div> -->
             <div class="col-md-4">
-                <!-- <input type="text" name="autocode" value="" /> -->
                 <input type="text" class="form-control" id="inputText3" name="autocode" placeholder="请输入验证码">
             </div>
             <div class="col-md-2"></div>
-        </div>
+        </div> -->
+        <br></br>
+        <div id="embed-captcha"></div>
+        <p id="wait" class="show">正在加载验证码......</p>
+        <p id="notice" class="hide">请先完成验证</p>
+
         <br></br>
         <div class="form-group">
             <div class="col-md-offset-1 col-md-10">
                 <!-- <input type="submit" name="submit" value="登录"> -->
-                <button type="submit" class="btn btn-default btn-lg active" name="submit">登&emsp;录</button>
+                <button type="submit" id="embed-submit" class="btn btn-default btn-lg active" name="submit">登&emsp;录</button>
             </div>
         </div>
         <br></br>
+        <br></br>
+        <br></br>
+
         <div class="form-group">
             <div class=" col-md-10">
                 <!-- <input type="submit" name="submit" value="登录"> -->
@@ -70,14 +81,54 @@
                     <!-- <a class="btn btn-default" href="RetrPwd.html" role="button">忘记密码</a> -->
                     <a href="RetrPwd.html">忘记密码</a>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-5">
                     <a href="signup.html">注册</a>
                 </div>
-
-
             </div>
         </div>
     </form>
+    <script src="http://apps.bdimg.com/libs/jquery/1.9.1/jquery.js"></script>
+    <script src="./js/gt.js"></script>
+    <script>
+        var handlerEmbed = function (captchaObj) {
+            $("#embed-submit").click(function (e) {
+                var validate = captchaObj.getValidate();
+                if (!validate) {
+                    $("#notice")[0].className = "show";
+                    setTimeout(function () {
+                        $("#notice")[0].className = "hide";
+                    }, 2000);
+                    e.preventDefault();
+                }
+            });
+            // 将验证码加到id为captcha的元素里，同时会有三个input的值：geetest_challenge, geetest_validate, geetest_seccode
+            captchaObj.appendTo("#embed-captcha");
+            captchaObj.onReady(function () {
+                $("#wait")[0].className = "hide";
+            });
+            // 更多接口参考：http://www.geetest.com/install/sections/idx-client-sdk.html
+        };
+        $.ajax({
+            // 获取id，challenge，success（是否启用failback）
+            url: "./StartCaptchaServlet.php?t=" + (new Date()).getTime(), // 加随机数防止缓存
+            type: "get",
+            dataType: "json",
+            success: function (data) {
+                console.log(data);
+                // 使用initGeetest接口
+                // 参数1：配置参数
+                // 参数2：回调，回调的第一个参数验证码对象，之后可以使用它做appendTo之类的事件
+                initGeetest({
+                    gt: data.gt,
+                    challenge: data.challenge,
+                    new_captcha: data.new_captcha,
+                    product: "embed", // 产品形式，包括：float，embed，popup。注意只对PC版验证码有效
+                    offline: !data.success // 表示用户后台检测极验服务器是否宕机，一般不需要关注
+                    // 更多配置参数请参见：http://www.geetest.com/install/sections/idx-client-sdk.html#config
+                }, handlerEmbed);
+            }
+        });
+    </script>
 </body>
 
 </html>

@@ -8,8 +8,8 @@ if ($type == "signup") {
     if (checkRegTime($verify)) {
         newAccount($verify);
     } else {
-        echo "链接过期，请重新注册！";
         header("refresh:0;url=signup.html"); //如果链接过期跳转至登陆页面
+        echo "链接过期，请重新注册！";
     }
 } else {
     // echo checkPermission("Permission" . $verify);
@@ -17,8 +17,8 @@ if ($type == "signup") {
     if (checkResTime($verify)) {
         changePwd($verify);
     } else {
-        echo "链接无效，请重新获取！";
         header("refresh:0;url=login.html"); //如果链接过期跳转至登陆页面
+        echo "链接无效，请重新获取！";
     }
     // checkTime($verify);
 }

@@ -9,7 +9,12 @@ if (isset($_POST['submit'])) {
 } else {
     exit("错误执行");
 }
-
+include "humanmachineverification.php";
+if (!checkperson()) {
+    echo "<script>alert('请进行人机验证！'); history.go(-1);</script>";
+    // echo "123";
+    exit();
+}
 function retrpwd()
 {
     $name = $_POST['name']; //post获取表单里的name
@@ -27,8 +32,6 @@ function retrpwd()
     if (!$result) {
         echo "用户名或邮箱输入错误！";
     } else {
-        echo "请点击邮箱链接重置密码！"; //成功输出注册成功
-        echo "3秒后将跳转登录界面！";
         $nowtime = time();
         $sql = "update user set respwd='1',restime='$nowtime' where username='$name'";
         $con->query($sql);
@@ -36,6 +39,8 @@ function retrpwd()
         // postmail('15658050107@163.com', '密码找回', $token, $name, 'retrpwd');
         postmail($email, '密码找回', $token, $name, 'retrpwd');
         header("refresh:3;url=login.html"); //如果成功跳转至登陆页面
+        echo "请点击邮箱链接重置密码！"; //成功输出注册成功
+        echo "3秒后将跳转登录界面！";
         exit;
     }
 

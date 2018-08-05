@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <?php
 session_start();
 if (isset($_SESSION['name']) && !empty($_SESSION['name'])) {
@@ -9,6 +8,7 @@ if (isset($_SESSION['name']) && !empty($_SESSION['name'])) {
 }
 
 ?>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="utf-8">
@@ -53,6 +53,7 @@ if (isset($_SESSION['name']) && !empty($_SESSION['name'])) {
       <!-- Main jumbotron for a primary marketing message or call to action -->
       <div class="jumbotron">
         <h1 align="center">全部商品</h1>
+        <a href='personalinfo.php' style="font-size:8" class="col-md-offset-11">个人主页</a>
         <!-- <p>This is a template showcasing the optional theme stylesheet included in Bootstrap. Use it as a starting point to create something more unique by building on or modifying it.</p> -->
       </div>
 
@@ -64,24 +65,10 @@ if (isset($_SESSION['name']) && !empty($_SESSION['name'])) {
       </div>
         <div class="col-md-8">
           <table class="table table-hover">
-            <thead>
-              <!-- <tr>
 
-                <th>number</th>
-                <th>商品</th>
-                <th>简介</th>
-                <th>价格</th>
-              </tr> -->
-            </thead>
-
-              <tr>
-                <!-- <td>2</td>
-                <td>Jacob</td>
-                <td>Thornton</td>
-                <td>@fat</td> -->
                 <?php
 
-define('SQL_HOST', 'localhost'); //数据库地址
+define('SQL_HOST', '127.0.0.1'); //数据库地址
 define("SQL_USER", "root"); //数据库用户名
 define("SQL_PASSWORD", "123456"); //数据库密码
 define("SQL_DATABASE", "test"); //连接的数据库名字
