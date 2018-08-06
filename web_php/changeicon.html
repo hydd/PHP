@@ -7,7 +7,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>修改头像</title>
 	<style>
-		#embed-captcha {
+		#sub {
 			width: 80px;
 			height: 50px;
 			text-align: center;
@@ -17,6 +17,8 @@
 			color: red;
 		}
 	</style>
+	<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+	    crossorigin="anonymous">
 	<link rel="stylesheet" href="css/style.css" type="text/css" />
 
 </head>
@@ -42,11 +44,18 @@
 			<div class="cropped"></div>
 		</div>
 		<form action="changeicon.php" method="post">
-			<br></br>
-			<br></br>
-			<input type="hidden" id="test" name="test" />
-			<button type="submit" id="embed-captcha" name="sub" value="">提交</button>
-			<a href="personalInfo.php">返回</a>
+			<div class="form-group">
+				<br></br>
+				<br></br>
+				<input type="hidden" id="test" name="test" />
+				<div class="form-group">
+					<div class="col-md-offset-1 col-md-7">
+						<input type="submit" id="sub" name="sub" class=" Btnsty_peyton" value="提交"></input>
+					</div>
+					<a href="personalInfo.php" class="Btnsty_peyton col-md-offset-1">返回</a>
+
+				</div>
+			</div>
 		</form>
 		<script src="http://apps.bdimg.com/libs/jquery/1.11.1/jquery.min.js" type="text/javascript"></script>
 		<script type="text/javascript" src="js/cropbox.js"></script>
@@ -66,6 +75,10 @@
 					}
 					reader.readAsDataURL(this.files[0]);
 					this.files = [];
+				})
+				$('#sub').on('click', function () {
+					var img = cropper.getDataURL();
+					document.getElementById("test").value = img;
 				})
 				$('#btnCrop').on('click', function () {
 					var img = cropper.getDataURL();

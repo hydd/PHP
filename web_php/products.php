@@ -1,5 +1,6 @@
 <?php
 session_start();
+header("Content-Type: text/html; charset=utf8");
 if (isset($_SESSION['name']) && !empty($_SESSION['name'])) {
     // echo "登录成功：" . $_SESSION['name'];
 } else {
@@ -53,7 +54,7 @@ if (isset($_SESSION['name']) && !empty($_SESSION['name'])) {
       <!-- Main jumbotron for a primary marketing message or call to action -->
       <div class="jumbotron">
         <h1 align="center">全部商品</h1>
-        <a href='personalinfo.php' style="font-size:8" class="col-md-offset-11">个人主页</a>
+        <a href='personalInfo.php' style="font-size:8" class="col-md-offset-11">个人主页</a>
         <!-- <p>This is a template showcasing the optional theme stylesheet included in Bootstrap. Use it as a starting point to create something more unique by building on or modifying it.</p> -->
       </div>
 
@@ -68,20 +69,22 @@ if (isset($_SESSION['name']) && !empty($_SESSION['name'])) {
 
                 <?php
 
-define('SQL_HOST', '127.0.0.1'); //数据库地址
-define("SQL_USER", "root"); //数据库用户名
-define("SQL_PASSWORD", "123456"); //数据库密码
-define("SQL_DATABASE", "test"); //连接的数据库名字
-define("SQL_PORT", "3306"); //数据库端口号,默认为3306
-//define("SQL_SOCKDET","");
+// define('SQL_HOST', '127.0.0.1'); //数据库地址
+// define("SQL_USER", "root"); //数据库用户名
+// define("SQL_PASSWORD", "123456"); //数据库密码
+// define("SQL_DATABASE", "test"); //连接的数据库名字
+// define("SQL_PORT", "3306"); //数据库端口号,默认为3306
+// //define("SQL_SOCKDET","");
 
-$mysql = mysqli_connect(SQL_HOST, SQL_USER, SQL_PASSWORD, SQL_DATABASE, SQL_PORT) or die(mysqli_error());
+// $mysql = mysqli_connect(SQL_HOST, SQL_USER, SQL_PASSWORD, SQL_DATABASE, SQL_PORT) or die(mysqli_error());
 //连接不上切换数据库
 //mysqli_select_db(SQLDATABASE);
+include "connect.php";
+mysqli_query($con, "set names utf8"); //utf8 设为对应的编码
 
 //查询语句
-$sql = "select* from mi_products";
-$results = mysqli_query($mysql, $sql); //utf8 设为对应的编码//查询
+$sql = "select * from mi_products";
+$results = mysqli_query($con, $sql); //utf8 设为对应的编码//查询
 // $results = $mysql -> query($sql);
 
 // print_r($results);
@@ -104,7 +107,7 @@ if (isset($_SESSION['name']) && !empty($_SESSION['name'])) {
 //释放
 mysqli_free_result($results);
 //关闭连接
-mysqli_close($mysql);
+mysqli_close($con);
 
 ?>
               </tr>

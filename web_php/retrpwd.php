@@ -10,11 +10,11 @@ if (isset($_POST['submit'])) {
     exit("错误执行");
 }
 include "humanmachineverification.php";
-if (!checkperson()) {
-    echo "<script>alert('请进行人机验证！'); history.go(-1);</script>";
-    // echo "123";
-    exit();
-}
+// if (!checkperson()) {
+//     echo "<script>alert('请进行人机验证！'); history.go(-1);</script>";
+//     // echo "123";
+//     exit();
+// }
 function retrpwd()
 {
     $name = $_POST['name']; //post获取表单里的name
@@ -25,14 +25,19 @@ function retrpwd()
     include 'sendMail.php'; //发送激活邮件
     mysqli_query($con, "set names utf8"); //utf8 设为对应的编码
     $sql = "select * from user where username = '$name' and email='$email'"; //检测数据库是否有对应的username和password的sql
-    $result = $con->query($sql);
+    $result = mysqli_query($con, $sql);
 
     $rows = mysqli_fetch_array($result); //
+    // echo "rows" . $rows['username'];
+    if (empty($rows)) {
+        echo "<script>alert('用户名或邮箱输入错误！'); history.go(-1);</script>";
+        // echo "用户名或邮箱输入错误！";
+        // echo "rows1" . $rows['username'];
 
-    if (!$result) {
-        echo "用户名或邮箱输入错误！";
     } else {
         $nowtime = time();
+        // echo "rows2" . $rows['username'];
+
         $sql = "update user set respwd='1',restime='$nowtime' where username='$name'";
         $con->query($sql);
         $token = $rows['token'];

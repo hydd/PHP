@@ -43,7 +43,7 @@ function singup()
     include 'sendMail.php'; //发送激活邮件
     mysqli_query($con, "set names utf8"); //utf8 设为对应的编码
     // $q = "insert into user(id,username,password,email,token,status) values (null,'$name','$password','$email','$token',$status)"; //向数据库插入表单传来的值的sql
-    $q = "insert into user(id,username,password,email,token,status,regtime,restime,respwd,icon) values (null,'$name','$md5pwd','$email','$token','$status','$regtime','$restime','$respwd','$icon')"; //向数据库插入表单传来的值的sql
+    $q = "insert into user(id,username,password,email,token,status,regtime,restime,respwd,icon) values (null,'$name','$md5pwd','$email','$token','$status','$regtime','$restime','$respwd',null)"; //向数据库插入表单传来的值的sql
     //查询
     $result = $con->query($q);
 

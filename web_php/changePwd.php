@@ -19,10 +19,10 @@ if (isset($_POST['submit'])) {
 
 function updatePwd($verify)
 {
-    $pwd = $_POST['password'];
-    $pwd1 = $_POST['password1'];
+    $pwd = md5($_POST['password']);
+    $pwd1 = md5($_POST['password1']);
     if ($pwd != $pwd1) {
-        echo "两次密码输入需要相同.";
+        echo "<script>alert('两次密码输入需要相同！'); history.go(-1);</script>";
     } else {
         include 'connect.php'; //链接数据库
 

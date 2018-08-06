@@ -63,7 +63,7 @@ function updateusername($id)
         die(mysqli_error($con));
     }else{
         $_SESSION['name'] = $newname;        
-        header("refresh:0;url=personalinfo.php");
+        header("refresh:0;url=personalInfo.php");
         echo "用户名修改成功呢";
         exit();
     }

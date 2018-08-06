@@ -10,7 +10,7 @@ if (isset($_SESSION['name']) && !empty($_SESSION['name'])) {
 $name = $_SESSION['name'];
 if (isset($_POST['submit'])) {
     // checkPwd();
-    if(checkpwd($name)){
+    if (checkpwd($name)) {
         updatePwd($_SESSION['name']);
     }
 } else {
@@ -19,8 +19,8 @@ if (isset($_POST['submit'])) {
 
 function checkpwd($name)
 {
-    $oldpwd = $_POST['password'];
-    $newpwd = $_POST['password1'];
+    $oldpwd = md5($_POST['password']);
+    $newpwd = md5($_POST['password1']);
     if ($oldpwd && $newpwd) {
         include 'connect.php';
         $sql = "select password from user where username = '$name'";
@@ -47,7 +47,7 @@ function checkpwd($name)
 function updatePwd($name)
 {
     // $pwd = $_POST['password'];
-    $pwd1 = $_POST['password1'];
+    $pwd1 = md5($_POST['password1']);
 
     include 'connect.php'; //链接数据库
     // $q = "insert into user(id,username,password,email,token,status) values (null,'$name','$password','$email','$token',$status)"; //向数据库插入表单传来的值的sql
@@ -58,7 +58,7 @@ function updatePwd($name)
         die(mysqli_error($con)); //如果sql执行失败输出错误
     } else {
         // echo "注册成功"; //成功输出注册成功
-        // header("refresh:0;url=personalinfo.php"); //如果成功跳转至登陆页面
+        // header("refresh:0;url=personalInfo.php"); //如果成功跳转至登陆页面
         // echo '密码修改成功！';
         echo "<script>alert('密码更新成功！');setTimeout(function(){window.location.href='personalinfo.php';},1000);
          </script>";
