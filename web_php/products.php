@@ -68,31 +68,24 @@ if (isset($_SESSION['name']) && !empty($_SESSION['name'])) {
           <table class="table table-hover">
 
                 <?php
+$total_size = 50;
+$page = $_GET['p'];
+// echo "p" . $page;
+if ($page == "") {
+    $page = 1;
+}
 
-// define('SQL_HOST', '127.0.0.1'); //数据库地址
-// define("SQL_USER", "root"); //数据库用户名
-// define("SQL_PASSWORD", "123456"); //数据库密码
-// define("SQL_DATABASE", "test"); //连接的数据库名字
-// define("SQL_PORT", "3306"); //数据库端口号,默认为3306
-// //define("SQL_SOCKDET","");
-
-// $mysql = mysqli_connect(SQL_HOST, SQL_USER, SQL_PASSWORD, SQL_DATABASE, SQL_PORT) or die(mysqli_error());
-//连接不上切换数据库
-//mysqli_select_db(SQLDATABASE);
 include "connect.php";
 mysqli_query($con, "set names utf8"); //utf8 设为对应的编码
-
 //查询语句
-$sql = "select * from mi_products";
+// $sql = "select * from mi_products limit" . ($page - 1) * 10 . ",10";
+$sql = "select * from mi_products limit " . ($page - 1) * $total_size . ",$total_size";
 $results = mysqli_query($con, $sql); //utf8 设为对应的编码//查询
-// $results = $mysql -> query($sql);
-
-// print_r($results);
 //遍历循环打印数据
 echo "<br>";
 if (isset($_SESSION['name']) && !empty($_SESSION['name'])) {
     echo '<tr><th>' . '编号' . '<th>' . '商品' . '<th>' . '简介' . '<th>' . '价格' . '<tr>';
-    while ($row = mysqli_fetch_array($results)) {
+    while ($row = mysqli_fetch_assoc($results)) {
         //    print_r($row);
         // echo $row[0];
         // echo 'while';
@@ -106,9 +99,28 @@ if (isset($_SESSION['name']) && !empty($_SESSION['name'])) {
 }
 //释放
 mysqli_free_result($results);
+
+$total_sql = "select count(*) from mi_products";
+$total_result = mysqli_fetch_array(mysqli_query($con, $total_sql));
+$total = $total_result[0];
+// echo $total;
+$total_page = ceil($total / $total_size);
+// echo $total_page;
 //关闭连接
 mysqli_close($con);
+$page_banner = "";
+if ($page > 1) {
+    $page_banner .= "<a href='" . $_SERVER['PHP_SELF'] . "?p=" . 1 . "'>首页</a>";
+    $page_banner .= "<a href='" . $_SERVER['PHP_SELF'] . "?p=" . ($page - 1) . "'>上一页</a>";
 
+}
+if ($page < $total_page) {
+    $page_banner .= "<a href='" . $_SERVER['PHP_SELF'] . "?p=" . ($page + 1) . "'>下一页</a>";
+    $page_banner .= "<a href='" . $_SERVER['PHP_SELF'] . "?p=" . ($total_page) . "'>末页</a>";
+
+}
+$page_banner .= "共{$total_page}页";
+echo $page_banner;
 ?>
               </tr>
             </tbody>
