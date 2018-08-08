@@ -1,13 +1,8 @@
 <?php
-session_start();
-header("Content-Type: text/html; charset=utf8");
-if (isset($_SESSION['name']) && !empty($_SESSION['name'])) {
-    // echo "登录成功：" . $_SESSION['name'];
-} else {
-    // exit("错误执行");
+include "dataprocessing.php";
+if (!isLogin()) {
     header("refresh:1;url=login.html"); //如果成功跳转至商品页面
 }
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -36,15 +31,7 @@ if (isset($_SESSION['name']) && !empty($_SESSION['name'])) {
     <!-- Custom styles for this template -->
     <link href="theme.css" rel="stylesheet">
 
-    <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
-    <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
     <script src="../../assets/js/ie-emulation-modes-warning.js"></script>
-
-    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
   </head>
 
   <body>
@@ -66,62 +53,14 @@ if (isset($_SESSION['name']) && !empty($_SESSION['name'])) {
       </div>
         <div class="col-md-8">
           <table class="table table-hover">
+            <div align="center">
+            <?php
 
-                <?php
-$total_size = 50;
-$page = $_GET['p'];
-// echo "p" . $page;
-if ($page == "") {
-    $page = 1;
-}
-
-include "connect.php";
-mysqli_query($con, "set names utf8"); //utf8 设为对应的编码
-//查询语句
-// $sql = "select * from mi_products limit" . ($page - 1) * 10 . ",10";
-$sql = "select * from mi_products limit " . ($page - 1) * $total_size . ",$total_size";
-$results = mysqli_query($con, $sql); //utf8 设为对应的编码//查询
-//遍历循环打印数据
-echo "<br>";
-if (isset($_SESSION['name']) && !empty($_SESSION['name'])) {
-    echo '<tr><th>' . '编号' . '<th>' . '商品' . '<th>' . '简介' . '<th>' . '价格' . '<tr>';
-    while ($row = mysqli_fetch_assoc($results)) {
-        //    print_r($row);
-        // echo $row[0];
-        // echo 'while';
-        if ($row['name'] != 'name') {
-            echo "<tr><td>" . $row["nid"] . "</td><td>" . $row["name"] . "</td><td>" . $row["info"] . "</td><td>" . $row["price"] . "</td><tr>";
-        }
-    }
-} else {
-    $size = 12;
-    echo "<font size=" . $size . ">" . '请先登录！' . "</font>";
-}
-//释放
-mysqli_free_result($results);
-
-$total_sql = "select count(*) from mi_products";
-$total_result = mysqli_fetch_array(mysqli_query($con, $total_sql));
-$total = $total_result[0];
-// echo $total;
-$total_page = ceil($total / $total_size);
-// echo $total_page;
-//关闭连接
-mysqli_close($con);
-$page_banner = "";
-if ($page > 1) {
-    $page_banner .= "<a href='" . $_SERVER['PHP_SELF'] . "?p=" . 1 . "'>首页</a>";
-    $page_banner .= "<a href='" . $_SERVER['PHP_SELF'] . "?p=" . ($page - 1) . "'>上一页</a>";
-
-}
-if ($page < $total_page) {
-    $page_banner .= "<a href='" . $_SERVER['PHP_SELF'] . "?p=" . ($page + 1) . "'>下一页</a>";
-    $page_banner .= "<a href='" . $_SERVER['PHP_SELF'] . "?p=" . ($total_page) . "'>末页</a>";
-
-}
-$page_banner .= "共{$total_page}页";
-echo $page_banner;
+getData();
+showPageBanner();
 ?>
+            </div>
+
               </tr>
             </tbody>
           </table>
