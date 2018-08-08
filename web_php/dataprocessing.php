@@ -216,11 +216,36 @@ function showPageBanner()
     $page_banner .= "<input type='submit' value='确定'>&emsp;</input>";
     $page_banner .= "<input type='text' size='8' name='search' placeholder='$search' method='get'>&emsp;</input>";
     $page_banner .= "<input type='submit' value = '搜索'>&emsp;";
-    $page_banner .= "<select name='sort'><option value='1'>编号递增</option>
-                    <option value='2'>编号递减</option>
-                    <option value='3'>价格递增</option>
-                    <option value='4'>价格递减</option></select>&emsp;&emsp;";
+    // $page_banner .= "<select name='sort'>
+    //                 <option value='1'>编号递增</option>
+    //                 <option value='2'>编号递减</option>
+    //                 <option value='3'>价格递增</option>
+    //                 <option value='4'>价格递减</option>
+    //                 </select>&emsp;&emsp;";
+    // $page_banner .= " <input type='submit' value='排序'>";
+
+    $data = array(
+        array('id' => 1, 'name' => '编号递增'),
+        array('id' => 2, 'name' => '编号递减'),
+        array('id' => 3, 'name' => '价格递增'),
+        array('id' => 4, 'name' => '价格递减')); //需要遍历的 select 数组
+
+    $id = $_GET['sort'];
+    // echo "id" . $id . "id";
+    $page_banner .= "<select name='sort'>";
+    foreach ($data as $arr) {
+        $aid = $arr['id'];
+        $aname = $arr['name'];
+        if ($arr['id'] == $id) {
+            $page_banner .= "<option value=$aid selected='selected'>$aname</option>";
+        } else {
+            $page_banner .= "<option value=$aid>$aname</option>";
+
+        }
+    }
+    $page_banner .= "</select>&emsp;&emsp;";
     $page_banner .= " <input type='submit' value='排序'>";
+
     if (isLogin()) {
         echo $page_banner;
     }
