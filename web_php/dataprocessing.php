@@ -37,14 +37,46 @@ function getSql()
 {
     $total_size = TOTAL_SIZE;
     $search = getSearch();
+    $sort = $_GET['sort'];
+    if ($sort != 1 && $sort != 2 && $sort != 3 && $sort != 4) {
+        $sort = 1;
+    }
+    // echo $sort;
     // $search = "%" . $search . "%";
     // echo "$search" . $search;
     if ($search == "") {
-        $sql = "select * from mi_products limit " . (getPage() - 1) * $total_size . ", $total_size";
+        switch ($sort) {
+            case 1:
+                $sql = "select * from mi_products limit " . (getPage() - 1) * $total_size . ", $total_size";
+                break;
+            case 2:
+                $sql = "select * from mi_products order by nid desc limit " . (getPage() - 1) * $total_size . ", $total_size";
+                break;
+            case 3:
+                $sql = "select * from mi_products order by price limit " . (getPage() - 1) * $total_size . ", $total_size";
+                break;
+            case 4:
+                $sql = "select * from mi_products order by price desc limit " . (getPage() - 1) * $total_size . ", $total_size";
+                break;
+        }
 
     } else {
-        $sql = "select * from mi_products where name like '%$search%' or info like '%$search%' limit " . (getPage() - 1) * $total_size . ", $total_size";
+        switch ($sort) {
+            case 1:
+                $sql = "select * from mi_products where name like '%$search%' or info like '%$search%' order by nid limit " . (getPage() - 1) * $total_size . ", $total_size";
+                break;
+            case 2:
+                $sql = "select * from mi_products where name like '%$search%' or info like '%$search%' order by nid desc limit " . (getPage() - 1) * $total_size . ", $total_size";
+                break;
+            case 3:
+                $sql = "select * from mi_products where name like '%$search%' or info like '%$search%' order by price limit " . (getPage() - 1) * $total_size . ", $total_size";
+                break;
+            case 4:
+                $sql = "select * from mi_products where name like '%$search%' or info like '%$search%' order by price desc limit " . (getPage() - 1) * $total_size . ", $total_size";
+                break;
+        }
     }
+    // echo $sql;
     return $sql;
 }
 function getCountSql()
@@ -181,9 +213,14 @@ function showPageBanner()
     $page_banner .= "共{$total_pages}页，";
     $page_banner .= "<form action='products.php' method='get'>";
     $page_banner .= "到第<input type='test' size='2' name='p'>页&emsp;";
-    $page_banner .= "<input type='submit' value='确定'>&emsp;&emsp;</input>";
-    $page_banner .= "<input type='text' size='8' name='search' placeholder='$search' method='get'>&emsp;&emsp;</input>";
-    $page_banner .= "<input type='submit' value = '搜索'>";
+    $page_banner .= "<input type='submit' value='确定'>&emsp;</input>";
+    $page_banner .= "<input type='text' size='8' name='search' placeholder='$search' method='get'>&emsp;</input>";
+    $page_banner .= "<input type='submit' value = '搜索'>&emsp;";
+    $page_banner .= "<select name='sort'><option value='1'>编号递增</option>
+                    <option value='2'>编号递减</option>
+                    <option value='3'>价格递增</option>
+                    <option value='4'>价格递减</option></select>&emsp;&emsp;";
+    $page_banner .= " <input type='submit' value='排序'>";
     if (isLogin()) {
         echo $page_banner;
     }
