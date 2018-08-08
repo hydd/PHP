@@ -97,7 +97,7 @@ if (isset($_SESSION['name']) && !empty($_SESSION['name'])) {
 // //连接不上切换数据库
 
 include "connect.php";
-
+unset($_SESSION['search']);
 $name = $_SESSION['name'];
 $sql = "select * from user where username = '$name'";
 $results = mysqli_query($con, $sql); //查询

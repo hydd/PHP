@@ -3,6 +3,9 @@ session_start();
 // header("Content-Type: text/html; charset=utf8");
 define('TOTAL_SIZE', 50);
 define('SHOWPAGE', 5);
+
+// getSql();
+
 function isLogin()
 {
     if (isset($_SESSION['name']) && !empty($_SESSION['name'])) {
@@ -13,11 +16,57 @@ function isLogin()
         return false;
     }
 }
+function getSearch()
+{
+    $type = $_GET['type'];
+    // echo "type" . $type . "tppe";
+    if ($type == 1) {
+        unset($_SESSION['search']);
+    }
+
+    $search = $_GET['search'];
+    if ($search == "") {
+        $search = $_SESSION['search'];
+    } else {
+        $_SESSION['search'] = $search;
+    }
+
+    return $search;
+}
+function getSql()
+{
+    $total_size = TOTAL_SIZE;
+    $search = getSearch();
+    // $search = "%" . $search . "%";
+    // echo "$search" . $search;
+    if ($search == "") {
+        $sql = "select * from mi_products limit " . (getPage() - 1) * $total_size . ", $total_size";
+
+    } else {
+        $sql = "select * from mi_products where name like '%$search%' or info like '%$search%' limit " . (getPage() - 1) * $total_size . ", $total_size";
+    }
+    return $sql;
+}
+function getCountSql()
+{
+    $total_size = TOTAL_SIZE;
+    $search = getSearch();
+    // $search = "%" . $search . "%";
+    // echo "$search" . $search;
+    if ($search == "") {
+        $sql = "select count(*) from mi_products ";
+
+    } else {
+        $sql = "select count(*) from mi_products where name like '%$search%'";
+    }
+    return $sql;
+}
 function getTotalPage()
 {
     include "connect.php";
     mysqli_query($con, "set names utf8"); //utf8 设为对应的编码
-    $total_sql = "select count(*) from mi_products";
+    // $total_sql = "select count(*) from mi_products";
+    $total_sql = getCountSql();
     $total_result = mysqli_fetch_array(mysqli_query($con, $total_sql));
     $total = $total_result[0];
     // echo $total;
@@ -33,8 +82,8 @@ function getPage()
     if ($page == "" || $page < 0) {
         $page = 1;
     }
-    $page = ($page > getTotalPage()) ? getTotalPage() : $page;
-
+    $page = $page > getTotalPage() ? getTotalPage() : $page;
+    $page = $page > 0 ? $page : 1;
     return $page;
 }
 
@@ -44,30 +93,39 @@ function getData()
     mysqli_query($con, "set names utf8"); //utf8 设为对应的编码
     $total_size = TOTAL_SIZE;
     //查询语句
-    $sql = "select * from mi_products limit " . (getPage() - 1) * $total_size . ", $total_size";
+    // $sql = "select * from mi_products limit " . (getPage() - 1) * $total_size . ", $total_size";
+    $sql = getSql();
+    // echo $sql;
     $results = mysqli_query($con, $sql); //查询
     //遍历循环打印数据
     echo "<br>";
+    $row = mysqli_fetch_array($results);
     if (isLogin()) {
-        echo '<tr><th>' . '编号' . '<th>' . '商品' . '<th>' . '简介' . '<th>' . '价格' . '<tr>';
         // echo "<br>";
-
-        while ($row = mysqli_fetch_assoc($results)) {
-            //    print_r($row);
-            // echo $row[0];
-            // echo 'while';
-            if ($row['name'] != 'name') {
-                echo "<tr><td>" . $row["nid"] . "</td><td>" . $row["name"] . "</td><td>" . $row["info"] . "</td><td>" . $row["price"] . "</td><tr>";
-                // echo "<br>";
-
+        if ($row == "") {
+            echo "<h1 align='center'>查询为空！</h1>";
+            echo "<br>";
+        } else {
+            echo '<tr><th>' . '编号' . '<th>' . '商品' . '<th>' . '简介' . '<th>' . '价格' . '<tr>';
+            while ($row = mysqli_fetch_array($results)) {
+                //    print_r($row);
+                // echo $row[0];
+                // echo 'while';
+                if ($row['name'] != 'name') {
+                    echo "<tr><td>" . $row["nid"] . "</td><td>" . $row["name"] . "</td><td>" . $row["info"] . "</td><td>" . $row["price"] . "</td><tr>";
+                    // echo "<br>";
+                }
             }
         }
+
     } else {
         $size = 12;
         echo "<font size=" . $size . ">" . '请先登录！' . "</font>";
     }
     //释放
-    mysqli_free_result($results);
+    if ($results) {
+        mysqli_free_result($results);
+    }
 
     //关闭连接
     mysqli_close($con);
@@ -81,11 +139,12 @@ function showPageBanner()
     $pageoffset = (SHOWPAGE - 1) / 2;
     $start = 1;
     $end = $total_pages;
+    $search = getSearch();
 
     $page_banner = "";
     if ($page > 1) {
-        $page_banner .= "<a href='" . $_SERVER['PHP_SELF'] . "?p=" . 1 . "'>首页&emsp;</a>";
-        $page_banner .= "<a href='" . $_SERVER['PHP_SELF'] . "?p=" . ($page - 1) . "'>上一页&emsp;</a>";
+        $page_banner .= "<a href='" . $_SERVER['PHP_SELF'] . "?p=" . 1 . "&&search=$search'>首页&emsp;</a>";
+        $page_banner .= "<a href='" . $_SERVER['PHP_SELF'] . "?p=" . ($page - 1) . "&&search=$search'>上一页&emsp;</a>";
 
     }
     //头部省略
@@ -108,21 +167,23 @@ function showPageBanner()
         $end = $total_pages;
     }
     for ($i = $start; $i <= $end; $i++) {
-        $page_banner .= "<a href='" . $_SERVER['PHP_SELF'] . "?p=" . $i . "'>&emsp;$i&emsp;</a>";
+        $page_banner .= "<a href='" . $_SERVER['PHP_SELF'] . "?p=" . $i . "&&search=$search'>$i&emsp;</a>";
     }
     //尾部省略
     if ($total_pages > $showpage && $total_pages > $page + $pageoffset) {
         $page_banner .= "...&emsp;";
     }
     if ($page < $total_pages) {
-        $page_banner .= "<a href='" . $_SERVER['PHP_SELF'] . "?p=" . ($page + 1) . "'>下一页&emsp;</a>";
-        $page_banner .= "<a href='" . $_SERVER['PHP_SELF'] . "?p=" . ($total_pages) . "'>末页&emsp;</a>";
+        $page_banner .= "<a href='" . $_SERVER['PHP_SELF'] . "?p=" . ($page + 1) . "&&search=$search'>下一页&emsp;</a>";
+        $page_banner .= "<a href='" . $_SERVER['PHP_SELF'] . "?p=" . ($total_pages) . "&&search=$search'>末页&emsp;</a>";
 
     }
     $page_banner .= "共{$total_pages}页，";
     $page_banner .= "<form action='products.php' method='get'>";
     $page_banner .= "到第<input type='test' size='2' name='p'>页&emsp;";
-    $page_banner .= "<input type='submit' value='确定'>";
+    $page_banner .= "<input type='submit' value='确定'>&emsp;&emsp;</input>";
+    $page_banner .= "<input type='text' size='8' name='search' placeholder='$search' method='get'>&emsp;&emsp;</input>";
+    $page_banner .= "<input type='submit' value = '搜索'>";
     if (isLogin()) {
         echo $page_banner;
     }
