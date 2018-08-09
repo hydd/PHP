@@ -2,12 +2,25 @@
 session_start();
 if (isset($_POST['sub'])) {
     $img = $_POST['test'];
-    // echo "<br>" . $base64_image_content . "----php变量显示";
+    isimg($img);
+}
+function isimg($img)
+{
     if ($img == "") {
         echo "<script>alert('请先选择头像！'); history.go(-1);</script>";
     } else {
-        saveimg($img);
-        // updateiconpath("1323r432431");
+        // 分割base64码，获取头部编码部分
+        $headData = explode(';', $img);
+        // print_r(explode(";", $img));
+        // 再获取编码前原文件的后缀信息
+        $postfix = explode('/', $headData[0]);
+        // print_r($postfix[1]);
+        $filetype = ['jpg', 'jpeg', 'gif', 'bmp', 'png'];
+        if (!in_array($postfix[1], $filetype)) {
+            echo "<script>alert('请选择正确的图片格式！'); history.go(-1);</script>";
+        } else {
+            saveimg($img);
+        }
     }
 }
 function saveimg($base64_image_content)

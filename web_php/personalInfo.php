@@ -85,18 +85,8 @@ if (isset($_SESSION['name']) && !empty($_SESSION['name'])) {
 
 
                 <?php
-
-// define('SQL_HOST', 'localhost'); //数据库地址
-// define("SQL_USER", "root"); //数据库用户名
-// define("SQL_PASSWORD", "123456"); //数据库密码
-// define("SQL_DATABASE", "test"); //连接的数据库名字
-// define("SQL_PORT", "3306"); //数据库端口号,默认为3306
-// //define("SQL_SOCKDET","");
-
-// $mysql = mysqli_connect(SQL_HOST, SQL_USER, SQL_PASSWORD, SQL_DATABASE, SQL_PORT) or die(mysqli_error());
-// //连接不上切换数据库
-
 include "connect.php";
+
 unset($_SESSION['search']);
 $name = $_SESSION['name'];
 $sql = "select * from user where username = '$name'";
