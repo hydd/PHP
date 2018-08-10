@@ -49,11 +49,6 @@ if (isset($_SESSION['name']) && !empty($_SESSION['name'])) {
       justify-content: center;
       overflow: hidden;
     }</style>
-    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
   </head>
 
   <body>
@@ -90,16 +85,23 @@ include "connect.php";
 unset($_SESSION['search']);
 $name = $_SESSION['name'];
 $sql = "select * from user where username = '$name'";
-$results = mysqli_query($con, $sql); //查询
-// print_r($results);
-//遍历循环打印数据
+$sql = "select username,email from user where username = ?";
+$stmt = $con->stmt_init();
+if ($stmt->prepare($sql)) {
+    $stmt->bind_param("s", $name);
+    $stmt->execute();
+    $stmt->bind_result($username, $email);
+}
+// if ($stmt->fetch()) {
+//     printf("%s : %s", $username, $email);
+// }
 
 echo "<br>";
 if (isset($_SESSION['name']) && !empty($_SESSION['name'])) {
     //查询语句
 
     // echo '<tr><th>' . '姓名' . '<th>' . '邮箱' . '<th>' . '简介' . '<th>';
-    while ($row = mysqli_fetch_array($results)) {
+    while ($stmt->fetch()) {
         //    print_r($row);
         // echo $row[0];
         // echo 'while';
@@ -107,11 +109,11 @@ if (isset($_SESSION['name']) && !empty($_SESSION['name'])) {
         // echo "<tr><td>" . $row["username"] . "</td><td>" . $row["email"] . "</td><td>" . $info . "</td><tr>";
         $namelink = "updatename.html";
         $pwdlink = "updatepwd.html";
-        echo "<tr><td>" . '用户名:' . "<td>" . $row["username"];
+        echo "<tr><td>" . '用户名:' . "<td>" . $username;
         echo "<td>" . "<a href='{$namelink}'>修改用户名</a>";
         echo "<tr><td>" . '密码:' . "<td>" . "******";
         echo "<td>" . "<a href='{$pwdlink}'>修改密码</a>";
-        echo "<tr><td>" . '邮箱:' . "<td>" . $row["email"] . "<td>";
+        echo "<tr><td>" . '邮箱:' . "<td>" . $email . "<td>";
         echo "<tr><td>" . '简介:' . "<td>" . $info . "<td>";
 
     }
@@ -120,7 +122,8 @@ if (isset($_SESSION['name']) && !empty($_SESSION['name'])) {
     echo "<font size=" . $size . ">" . '请先登录！' . "</font>";
 }
 //释放
-mysqli_free_result($results);
+$stmt->close();
+
 //关闭连接
 mysqli_close($con);
 

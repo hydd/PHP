@@ -5,49 +5,57 @@ header("Content-Type: text/html; charset=utf8");
 //     exit("错误执行");
 // }//判断是否有submit操作
 if (isset($_POST['submit'])) {
-    retrpwd();
+    // retrpwd();
+    checkPer();
 } else {
     exit("错误执行");
 }
 include "humanmachineverification.php";
-// if (!checkperson()) {
-//     echo "<script>alert('请进行人机验证！'); history.go(-1);</script>";
-//     // echo "123";
-//     exit();
-// }
-function retrpwd()
+
+function checkPer()
 {
     $name = $_POST['name']; //post获取表单里的name
     // $token = md5($name . time());
     $email = trim($_POST['email']);
 
     include 'connect.php'; //链接数据库
-    include 'sendMail.php'; //发送激活邮件
     mysqli_query($con, "set names utf8"); //utf8 设为对应的编码
-    $sql = "select * from user where username = '$name' and email='$email'"; //检测数据库是否有对应的username和password的sql
-    $result = mysqli_query($con, $sql);
-
-    $rows = mysqli_fetch_array($result); //
-    // echo "rows" . $rows['username'];
-    if (empty($rows)) {
-        echo "<script>alert('用户名或邮箱输入错误！'); history.go(-1);</script>";
-        // echo "用户名或邮箱输入错误！";
-        // echo "rows1" . $rows['username'];
-
-    } else {
-        $nowtime = time();
-        // echo "rows2" . $rows['username'];
-
-        $sql = "update user set respwd='1',restime='$nowtime' where username='$name'";
-        $con->query($sql);
-        $token = $rows['token'];
-        // postmail('15658050107@163.com', '密码找回', $token, $name, 'retrpwd');
-        postmail($email, '密码找回', $token, $name, 'retrpwd');
-        header("refresh:3;url=login.html"); //如果成功跳转至登陆页面
-        echo "请点击邮箱链接重置密码！"; //成功输出注册成功
-        echo "3秒后将跳转登录界面！";
-        exit;
+    // $sql = "select * from user where username = '$name' and email='$email'"; //检测数据库是否有对应的username和password的sql
+    $sql = "select id,token from user where username = ? and email = ?";
+    $stmt = $con->stmt_init();
+    if ($stmt->prepare($sql)) {
+        $stmt->bind_param("ss", $name, $email);
+        $stmt->execute();
+        $stmt->bind_result($id, $token);
     }
+    if ($stmt->fetch()) {
+        retrpwd($token);
+    } else {
+        echo "<script>alert('用户名或邮箱输入错误！'); history.go(-1);</script>";
+    }
+    $stmt->close();
+}
 
+function retrpwd($token)
+{
+    include 'connect.php'; //链接数据库
+    include 'sendMail.php'; //发送激活邮件
+    $name = $_POST['name']; //post获取表单里的name
+    mysqli_query($con, "set names utf8"); //utf8 设为对应的编码
+    $nowtime = time();
+    $respwd = 1;
+    $sql = "update user set respwd=?,restime=? where username=?";
+    $stmt = $con->stmt_init();
+    if ($stmt->prepare($sql)) {
+        $stmt->bind_param("sss", $respwd, $nowtime, $name);
+        if ($stmt->execute()) {
+            postmail($email, '密码找回', $token, $name, 'retrpwd');
+            header("refresh:3;url=login.html"); //如果成功跳转至登陆页面
+            echo "请点击邮箱链接重置密码！"; //成功输出注册成功
+            echo "3秒后将跳转登录界面！";
+        }
+    }
+    $stmt->close();
     mysqli_close($con); //关闭数据库
+    exit;
 }

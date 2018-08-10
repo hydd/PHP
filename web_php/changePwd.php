@@ -12,34 +12,35 @@ if (isset($_SESSION['verify']) && !empty($_SESSION['verify'])) {
 // }//判断是否有submit操作
 if (isset($_POST['submit'])) {
     // checkPwd();
-    updatePwd($_SESSION['verify']);
+    $verify = $_SESSION['verify'];
+    unset($_SESSION['verify']);
+    updatePwd($verify);
+
 } else {
     exit("错误执行");
 }
 
 function updatePwd($verify)
 {
-    $pwd = md5($_POST['password']);
-    $pwd1 = md5($_POST['password1']);
+    $pwd = $_POST['password'];
+    $pwd1 = $_POST['password1'];
     if ($pwd != $pwd1) {
         echo "<script>alert('两次密码输入需要相同！'); history.go(-1);</script>";
     } else {
         include 'connect.php'; //链接数据库
-
-        // $q = "insert into user(id,username,password,email,token,status) values (null,'$name','$password','$email','$token',$status)"; //向数据库插入表单传来的值的sql
-        $q = "update user set password='$pwd' where token ='$verify'"; //向数据库插入表单传来的值的sql
-        $result = mysqli_query($con, $q);
-        // $result = $con->query($q);
-
-        if (!$result) {
-            die(mysqli_error($con)); //如果sql执行失败输出错误
-        } else {
-            // echo "注册成功"; //成功输出注册成功
-            header("refresh:0;url=login.html"); //如果成功跳转至登陆页面
-            echo '密码修改成功，请使用新密码登陆！';
-            exit;
+        $sql = "update user set password = ? where token = ?";
+        $stmt = $con->stmt_init();
+        if ($stmt->prepare($sql)) {
+            $stmt->bind_param("ss", md5($pwd), $verify);
+            if ($stmt->execute()) {
+                header("refresh:0;url=login.html"); //如果成功跳转至登陆页面
+                echo '密码修改成功，请使用新密码登陆！';
+                $stmt->close();
+                exit;
+            } else {
+                die(mysqli_error($con)); //如果sql执行失败输出错误
+            }
         }
-
         mysqli_close($con); //关闭数据库
     }
 
