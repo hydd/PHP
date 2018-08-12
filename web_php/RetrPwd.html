@@ -26,14 +26,14 @@
 </div>
 
 <body background="images/4.jpg">
-    <form align="center" name="retrpwd" action="retrpwd.php" method="post">
+    <form align="center" name="form1" action="retrpwd.php" onsubmit="return check_name_submit()" method="post">
         <div class="form-group">
             <label for="inputText3" class=" col-md-offset-2 col-md-2 control-label">用户名</label>
             <!-- <div class="col-md-2"></div> -->
             <div class="col-md-4">
-                <input type="text" class="form-control" id="inputText3" name="name" placeholder="请输入用户名">
+                <input type="text" class="form-control" id="inputText3" name="name" placeholder="请输入用户名" onblur="blur_username()" onfocus="focus_username()">
             </div>
-            <div class="col-md-2"></div>
+            <div class="col-md-2" id="username"></div>
         </div>
         <br></br>
         <br></br>
@@ -58,6 +58,7 @@
     </form>
     <script src="http://apps.bdimg.com/libs/jquery/1.9.1/jquery.js"></script>
     <script src="./js/gt.js"></script>
+    <script src="./js/checkuser.js"></script>
     <script>
         var handlerEmbed = function (captchaObj) {
             $("#embed-submit").click(function (e) {

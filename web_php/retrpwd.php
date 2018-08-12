@@ -10,7 +10,12 @@ if (isset($_POST['submit'])) {
 } else {
     exit("错误执行");
 }
-include "humanmachineverification.php";
+include "checkinfo.php";
+if (!checkemail($_POST['email']) || !checkname($_POST['name'])) {
+    echo "<script>alert('请根据提示输入正确格式的信息！'); history.go(-1);</script>";
+    // echo "123";
+    exit();
+}
 
 function checkPer()
 {
@@ -41,6 +46,7 @@ function retrpwd($token)
     include 'connect.php'; //链接数据库
     include 'sendMail.php'; //发送激活邮件
     $name = $_POST['name']; //post获取表单里的name
+    $email = trim($_POST['email']);
     mysqli_query($con, "set names utf8"); //utf8 设为对应的编码
     $nowtime = time();
     $respwd = 1;

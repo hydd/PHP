@@ -1,7 +1,6 @@
 <?php
 session_start();
 header("Content-Type: text/html; charset=utf8");
-
 if (isset($_POST['submit'])) {
     // if (isset($_REQUEST['autocode'])) {
     //     // session_start();
@@ -12,13 +11,25 @@ if (isset($_POST['submit'])) {
     //         isNull();
     //     }
     // }
-    isNull();
+    if (checkformat()) {
+        isNull();
+    } else {
+        echo "<script>alert('请根据提示输入正确格式的信息！'); history.go(-1);</script>";
+    }
     // singup();
 } else {
     header("refresh:1;url=signup.html"); //返回注册界面
     exit("请先填写注册信息，错误执行");
 }
-
+function checkformat()
+{
+    include "checkinfo.php";
+    if (checkusername($_POST['name']) && checkpassword($_POST['password']) && checkemail($_POST['email'])) {
+        return true;
+    } else {
+        return false;
+    }
+}
 function singup()
 {
     // $id = $con->lastInsertId() + 1;

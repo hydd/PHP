@@ -10,6 +10,7 @@
             width: 300px;
             margin: 0 auto;
         }
+
         #notice {
             color: red;
         }
@@ -24,14 +25,14 @@
 </div>
 
 <body background="images/1.jpg">
-    <form align="center" name="login" action="login.php" method="post">
+    <form align="center" name="form1" action="login.php" onsubmit="return check_submit()" method="post">
         <div class="form-group">
             <label for="inputText3" class=" col-md-offset-2 col-md-2 control-label">用户名</label>
             <!-- <div class="col-md-2"></div> -->
             <div class="col-md-4">
-                <input type="text" class="form-control" id="inputText3" name="name" placeholder="请输入用户名">
+                <input type="text" class="form-control" id="inputText3" name="name" placeholder="请输入用户名" onblur="blur_username()" onfocus="focus_username()">
             </div>
-            <div class="col-md-2"></div>
+            <div id="username" class="col-md-2"></div>
         </div>
         <!-- <br> -->
         <br></br>
@@ -39,8 +40,11 @@
         <div class="form-group">
             <label for="inputPassword3" class=" col-md-offset-2 col-md-2 control-label">密码</label>
             <div class="col-md-4">
-                <input type=password class="form-control" id='inputPassword3' name="password" placeholder="请输入密码">
+                <input type="password" class="form-control" id='inputPassword3' name="password" placeholder="请输入密码" onblur="blur_userpwd()"
+                    onfocus="focus_userpwd()">
             </div>
+            <div id="password" class="col-md-2"></div>
+
         </div>
         <!-- <br> -->
         <br></br>
@@ -89,6 +93,7 @@
     </form>
     <script src="http://apps.bdimg.com/libs/jquery/1.9.1/jquery.js"></script>
     <script src="./js/gt.js"></script>
+    <script src="./js/checkuser.js"></script>
     <script>
         var handlerEmbed = function (captchaObj) {
             $("#embed-submit").click(function (e) {

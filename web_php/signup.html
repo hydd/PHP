@@ -9,33 +9,38 @@
         crossorigin="anonymous">
 </head>
 <div class="container theme-showcase" role="main">
-    <div class="jumbotron" style="background-color:transparent" >
+    <div class="jumbotron" style="background-color:transparent">
         <h1 align="center">用户注册</h1>
     </div>
 </div>
 
 <body background="images/1.jpg">
-    <form align="center" action="signup.php" method="post">
+    <form align="center" name="form1" onsubmit="return check_submit()" action="signup.php" method="post">
         <div class="form-group">
             <label for="inputText3" class="col-md-offset-2 col-md-2 control-label ">用户名</label>
             <div class="col-md-4">
-                <input type="text" class="form-control" id="inputText3" name="name" placeholder="请输入用户名">
+                <input type="text" class="form-control" id="inputText3" name="name" placeholder="请输入用户名" onblur="blur_username()" onfocus="focus_username()">
             </div>
+            <div id="username" class="col-md-2"></div>
         </div>
         <br>
         <br></br>
         <div class="form-group">
             <label for="inputPassword1" class="col-md-2 col-md-offset-2 control-label">密码</label>
             <div class="col-md-4">
-                <input type="password" class="form-control" id="inputPassword1" name="password" placeholder="请输入密码">
+                <input type="password" class="form-control" id="inputPassword1" name="password" placeholder="请输入密码" onfocus="focus_userpwd()"
+                    onblur="blur_userpwd()">
             </div>
+            <div id="password" class="col-md-2"></div>
         </div>
         <br></br>
         <div class="form-group">
             <label for="inputPassword3" class="col-md-2 col-md-offset-2 control-label">确认密码</label>
             <div class="col-md-4">
-                <input type="password" class="form-control" id="inputPassword3" name="password1" placeholder="请再次输入密码">
+                <input type="password" class="form-control" id="inputPassword3" name="password1" placeholder="请再次输入密码" onfocus="focus_userpwd1()"
+                    onblur="blur_userpwd1()">
             </div>
+            <div id="password1" class="col-md-2"></div>
         </div>
         <br></br>
         <div class="form-group">
@@ -85,6 +90,7 @@
 
         <!-- <a href="login.html">登陆</a> -->
     </form>
+    <script src="./js/checkuser.js"></script>
 </body>
 
 </html>

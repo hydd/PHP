@@ -19,7 +19,35 @@ if (!checkperson()) {
     // echo "123";
     exit();
 }
+include "checkinfo.php";
+if (!checkusername($_POST['name']) || !checkpassword($_POST['password'])) {
+    // echo "name" . checkusername();
+    // echo "pwd" . checkpassword();
+    echo "<script>alert('请输入正确格式的用户名或密码！'); history.go(-1);</script>";
+    // echo "123";
+    exit();
+}
+// function checkusername()
+// {
+//     $name = $_POST['name']; //post获得用户名表单值
+//     if (!preg_match("/^[a-zA-Z0-9_-]{4,21}$/", $name)) {
+//         // echo '密码必须由数字和字母的组合而成';
+//         return false;
+//     } else {
+//         return true;
+//     }
+// }
+// function checkpassword()
+// {
+//     $passowrd = $_POST['password']; //post获得用户密码单值
+//     if (!preg_match("/^[a-zA-Z0-9_-]{4,21}$/", $passowrd)) {
+//         // echo '密码必须由数字和字母的组合而成';
+//         return false;
+//     } else {
+//         return true;
+//     }
 
+// }
 include 'connect.php'; //链接数据库
 $name = $_POST['name']; //post获得用户名表单值
 $passowrd = $_POST['password']; //post获得用户密码单值
