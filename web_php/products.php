@@ -17,7 +17,6 @@ if (!isLogin()) {
     <script type="text/javascript" src="test.php?id=test"></script>
 
     <title>Theme Template for Bootstrap</title>
-
     <!-- Bootstrap core CSS -->
     <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
     <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
@@ -58,7 +57,7 @@ if (!isLogin()) {
             <?php
 
 getData();
-showPageBanner();
+// showPageBanner();
 ?>
             </div>
 

@@ -190,14 +190,14 @@ function showPageBanner()
 
     $page_banner = "";
     if ($page > 1) {
-        $page_banner .= "<a href='" . $_SERVER['PHP_SELF'] . "?p=" . 1 . "&&search=$search' style='text-decoration: none;'>首页&emsp;</a>";
-        $page_banner .= "<a href='" . $_SERVER['PHP_SELF'] . "?p=" . ($page - 1) . "&&search=$search' style='text-decoration: none;'>上一页&emsp;</a>";
+        $page_banner .= "<a href='" . $_SERVER['PHP_SELF'] . "?p=" . 1 . "&&search=$search'>首页&emsp;</a>";
+        $page_banner .= "<a href='" . $_SERVER['PHP_SELF'] . "?p=" . ($page - 1) . "&&search=$search'>上一页&emsp;</a>";
 
     }
     //头部省略
     if ($total_pages > $showpage) {
         if ($page > $pageoffset + 1) {
-            $page_banner .= "...&emsp;";
+            $page_banner .= "...";
         }
         if ($page > $pageoffset) {
             $start = $page - $pageoffset;
@@ -214,19 +214,15 @@ function showPageBanner()
         $end = $total_pages;
     }
     for ($i = $start; $i <= $end; $i++) {
-        if($i==getPage()){
-            $page_banner .= "<a href='" . $_SERVER['PHP_SELF'] . "?p=" . $i . "&&search=$search' style='color:#FF0000;text-decoration: none;'>$i&emsp;</a>";
-        }else{
-            $page_banner .= "<a href='" . $_SERVER['PHP_SELF'] . "?p=" . $i . "&&search=$search' style='text-decoration: none;'>$i&emsp;</a>";
-        }
+        $page_banner .= "<a href='" . $_SERVER['PHP_SELF'] . "?p=" . $i . "&&search=$search'>$i&emsp;</a>";
     }
     //尾部省略
     if ($total_pages > $showpage && $total_pages > $page + $pageoffset) {
         $page_banner .= "...&emsp;";
     }
     if ($page < $total_pages) {
-        $page_banner .= "<a href='" . $_SERVER['PHP_SELF'] . "?p=" . ($page + 1) . "&&search=$search' style='text-decoration: none;'>下一页&emsp;</a>";
-        $page_banner .= "<a href='" . $_SERVER['PHP_SELF'] . "?p=" . ($total_pages) . "&&search=$search' style='text-decoration: none;'>末页&emsp;</a>";
+        $page_banner .= "<a href='" . $_SERVER['PHP_SELF'] . "?p=" . ($page + 1) . "&&search=$search'>下一页&emsp;</a>";
+        $page_banner .= "<a href='" . $_SERVER['PHP_SELF'] . "?p=" . ($total_pages) . "&&search=$search'>末页&emsp;</a>";
 
     }
     $page_banner .= "<br></br>";
