@@ -18,27 +18,16 @@ if (isset($_SESSION['name']) && !empty($_SESSION['name'])) {
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <meta name="description" content="">
     <meta name="author" content="">
-
-    <script type="text/javascript" src="test.php?id=test"></script>
-
-    <title>Theme Template for Bootstrap</title>
+    <title>个人信息</title>
 
     <!-- Bootstrap core CSS -->
     <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
     <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 
-    <!-- 可选的 Bootstrap 主题文件（一般不用引入） -->
-    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
 
     <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
     <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
-    <!-- Custom styles for this template -->
-    <link href="theme.css" rel="stylesheet">
-
-    <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
-    <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
-    <script src="../../assets/js/ie-emulation-modes-warning.js"></script>
     <style type="text/css">
     .round_icon{
       width: 100px;
@@ -54,8 +43,9 @@ if (isset($_SESSION['name']) && !empty($_SESSION['name'])) {
   <body>
 
     <div class="container theme-showcase" role="main">
-    <a href='products.php'>查看所有商品</a>
-    <a href='logout.php' class="col-md-offset-10">退出登录</a>
+    <a href='products.php' style='text-decoration: none;'>查看所有商品</a>
+    <a href='showcollection.html' style='text-decoration: none;'>&emsp;&emsp;&emsp;我的心愿单</a>
+    <a href='logout.php' class="col-md-offset-9" style='text-decoration: none;'>退出登录</a>
 
       <!-- Main jumbotron for a primary marketing message or call to action -->
       <div class="jumbotron">
@@ -114,7 +104,7 @@ if (isset($_SESSION['name']) && !empty($_SESSION['name'])) {
         echo "<tr><td>" . '密码:' . "<td>" . "******";
         echo "<td>" . "<a href='{$pwdlink}'>修改密码</a>";
         echo "<tr><td>" . '邮箱:' . "<td>" . $email . "<td>";
-        echo "<tr><td>" . '简介:' . "<td>" . $info . "<td>";
+        echo "<tr><td>" . '简介:' . "<td>" . $info . "<td><tr>";
 
     }
 } else {

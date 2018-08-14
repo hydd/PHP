@@ -7,16 +7,9 @@ define('SHOWPAGE', 5);
 // showPageBanner();
 // getSql();
 // getTotalPage();
-
-function isLogin()
-{
-    if (isset($_SESSION['name']) && !empty($_SESSION['name'])) {
-        // echo "登录成功：" . $_SESSION['name'];
-        return true;
-    } else {
-        // exit("错误执行");
-        return false;
-    }
+include_once "checklogin.php";
+if (!isLogin()) {
+    exit("请登录");
 }
 function getSearch()
 {
@@ -154,14 +147,21 @@ function getData()
         } else {
             showPageBanner();
             echo '<tr><th>' . '编号' . '<th>' . '商品' . '<th>' . '简介' . '<th>' . '价格' . '<tr>';
+            echo "<script src='./js/collect.js?v=8'></script>";
+            include_once "collect.php";
             while ($row = $result->fetch_assoc()) {
-                //    print_r($row);
-                // echo $row[0];
-                // echo 'while';
-                // if ($row['name'] != 'name') {
-                echo "<tr><td>" . $row["nid"] . "</td><td>" . $row["name"] . "</td><td>" . $row["info"] . "</td><td>" . $row["price"] . "</td><tr>";
-                // echo "<br>";
-                // }
+
+                $id = $row["nid"];
+                echo "<tr><td>" . $row["nid"] . "</td><td>" . $row["name"] . "</td><td>" . $row["info"] . "</td><td>" . $row["price"] . "</td><td>";
+                // . "<button id='like' onclick='islike()' value='like'>like</button>"
+                // . "<button id='unlike' onclick='islike()' style='display:none;'>unlike</button>"
+                // echo "<input type=button onclick=\"allow('$id',this);\" value='like'>" . "</td><tr>";
+                // echo "<a href='collect.php?x=" . $id . "'>收藏</a></td><tr>";
+                if (!checkcollection($row["nid"])) {
+                    echo "<button class='collect' data-id='" . $row['nid'] . "'>收藏</button></td><tr>";
+                } else {
+                    echo "<button class='collect' data-id='" . $row['nid'] . "'>取消收藏</button></td><tr>";
+                }
             }
         }
 
@@ -189,6 +189,7 @@ function showPageBanner()
     $search = getSearch();
 
     $page_banner = "";
+
     if ($page > 1) {
         $page_banner .= "<a href='" . $_SERVER['PHP_SELF'] . "?p=" . 1 . "&&search=$search' style='text-decoration: none;'>首页&emsp;</a>";
         $page_banner .= "<a href='" . $_SERVER['PHP_SELF'] . "?p=" . ($page - 1) . "&&search=$search' style='text-decoration: none;'>上一页&emsp;</a>";
@@ -214,9 +215,9 @@ function showPageBanner()
         $end = $total_pages;
     }
     for ($i = $start; $i <= $end; $i++) {
-        if($i==getPage()){
+        if ($i == getPage()) {
             $page_banner .= "<a href='" . $_SERVER['PHP_SELF'] . "?p=" . $i . "&&search=$search' style='color:#FF0000;text-decoration: none;'>$i&emsp;</a>";
-        }else{
+        } else {
             $page_banner .= "<a href='" . $_SERVER['PHP_SELF'] . "?p=" . $i . "&&search=$search' style='text-decoration: none;'>$i&emsp;</a>";
         }
     }
@@ -266,8 +267,9 @@ function showPageBanner()
         }
     }
     $page_banner .= "</select>&emsp;&emsp;";
-    $page_banner .= " <input type='submit' value='排序'>";
+    $page_banner .= " <input type='submit' value='排序'></input>";
 
+    $page_banner .= "</form>";
     if (isLogin()) {
         echo $page_banner;
     }
