@@ -1,9 +1,15 @@
 <?php
 session_start();
-if (isset($_SESSION['name']) && !empty($_SESSION['name'])) {
-    // echo ("验证通过");
-} else {
-    header("refresh:1;url=login.html");
+// if (isset($_SESSION['name']) && !empty($_SESSION['name'])) {
+//     // echo ("验证通过");
+// } else {
+//     header("refresh:1;url=login.html");
+//     exit();
+// }
+include_once "checklogin.php";
+if (!isLogin()) {
+    echo "<script>alert('请先登录！');setTimeout(function(){window.location.href='login.html';},100);
+    </script>";
     exit();
 }
 $name = $_SESSION['name'];

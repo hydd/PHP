@@ -9,7 +9,9 @@ define('SHOWPAGE', 5);
 // getTotalPage();
 include_once "checklogin.php";
 if (!isLogin()) {
-    exit("请登录");
+    echo "<script>alert('请先登录！');setTimeout(function(){window.location.href='login.html';},100);
+    </script>";
+    exit();
 }
 function getSearch()
 {

@@ -1,12 +1,17 @@
 <?php
 session_start();
-if (isset($_SESSION['name']) && !empty($_SESSION['name'])) {
-    // echo "登录成功：" . $_SESSION['name'];
-} else {
-    // exit("错误执行");
-    header("refresh:1;url=login.html"); //如果成功跳转至商品页面
+// if (isset($_SESSION['name']) && !empty($_SESSION['name'])) {
+//     // echo "登录成功：" . $_SESSION['name'];
+// } else {
+//     // exit("错误执行");
+//     header("refresh:1;url=login.html"); //如果成功跳转至商品页面
+// }
+include_once "checklogin.php";
+if (!isLogin()) {
+    echo "<script>alert('请先登录！');setTimeout(function(){window.location.href='login.html';},100);
+    </script>";
+    exit();
 }
-
 ?>
 <!DOCTYPE html>
 

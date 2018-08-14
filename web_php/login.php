@@ -76,7 +76,7 @@ if ($name && $passowrd) { //如果用户名和密码都不为空
             echo "请先激活您的账号！";
             echo "
                       <script>
-                            setTimeout(function(){window.location.href='login.html';},1000);
+                            setTimeout(function(){window.location.href='login.html';},100);
                       </script>";
 
             //如果错误使用js 1秒后跳转到登录页面重试;
