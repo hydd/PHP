@@ -1,6 +1,6 @@
 <?php
 session_start();
-
+unset($_SESSION['search']);
 // session_start();
 header("Content-Type: text/html; charset=utf8");
 if (!isset($_POST["submit"])) {

@@ -14,7 +14,7 @@ if (!isLogin()) {
     <meta name="description" content="">
     <meta name="author" content="">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-    <script type="text/javascript" src="test.php?id=test"></script>
+    <!-- <script type="text/javascript" src="test.php?id=test"></script> -->
 
     <title>商品展示</title>
     <!-- Bootstrap core CSS -->

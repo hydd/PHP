@@ -10,6 +10,12 @@ if (isset($_POST['submit'])) {
 } else {
     exit("错误执行");
 }
+include "humanmachineverification.php";
+if (!checkperson()) {
+    echo "<script>alert('请进行人机验证！'); history.go(-1);</script>";
+    // echo "123";
+    exit();
+}
 include "checkinfo.php";
 if (!checkemail($_POST['email']) || !checkname($_POST['name'])) {
     echo "<script>alert('请根据提示输入正确格式的信息！'); history.go(-1);</script>";

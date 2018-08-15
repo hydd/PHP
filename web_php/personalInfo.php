@@ -32,7 +32,6 @@ if (!isLogin()) {
 
     <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
     <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-
     <style type="text/css">
     .round_icon{
       width: 100px;
@@ -49,7 +48,7 @@ if (!isLogin()) {
 
     <div class="container theme-showcase" role="main">
     <a href='products.php' style='text-decoration: none;'>查看所有商品</a>
-    <a href='showcollection.html' style='text-decoration: none;'>&emsp;&emsp;&emsp;我的心愿单</a>
+    <a href='showcollection.php' style='text-decoration: none;'>&emsp;&emsp;&emsp;我的心愿单</a>
     <a href='logout.php' class="col-md-offset-9" style='text-decoration: none;'>退出登录</a>
 
       <!-- Main jumbotron for a primary marketing message or call to action -->
