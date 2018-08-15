@@ -25,6 +25,7 @@ function getuid()
     $stmt->execute();
     $stmt->bind_result($id);
     if ($stmt->fetch()) {
+        $stmt->close();
         return $id;
-    }
+    } 
 }

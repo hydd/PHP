@@ -86,6 +86,7 @@ function changePwd($verify)
             echo ("账户尚未激活，请先进入邮箱激活账户。");
 
         }
+        $stmt->close();
     }
 }
 
@@ -144,6 +145,7 @@ function checkResTime($verify) //检查申请找回密码的时间
             die(mysqli_error($con)); //如果sql执行失败输出错误
             // return false;
         }
+        $stmt->close();
     }
 }
 function checkRegTime($verify) //检查用户注册的时间
@@ -161,6 +163,7 @@ function checkRegTime($verify) //检查用户注册的时间
     $stmt->execute();
     $stmt->bind_result($regtime);
     $stmt->fetch();
+    $stmt->close();
     if ($nowtime > $regtime + 24 * 60 * 3600) {
         // echo "Time False";
         return false;

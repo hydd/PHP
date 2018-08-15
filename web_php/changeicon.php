@@ -115,6 +115,7 @@ function geticonpath($type)
             return time() . ".$type";
         }
     }
+    $stmt->close();
 }
 
 function updateiconpath($path)
@@ -128,6 +129,7 @@ function updateiconpath($path)
     $stmt->prepare($sql);
     $stmt->bind_param("ss", $path, $name);
     $stmt->execute();
+    $stmt->close();
 
     // $stmt->bind_result($icon);
 

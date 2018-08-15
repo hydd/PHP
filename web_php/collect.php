@@ -1,7 +1,9 @@
 <?php
 include_once "checklogin.php";
 if (!isLogin()) {
-    exit("请登录");
+    echo "<script>alert('请先登录！');setTimeout(function(){window.location.href='login.html';},100);
+    </script>";
+    exit();
 }
 $pid = $_GET['x'];
 if (!checkcollection($pid)) {
@@ -12,7 +14,7 @@ if (!checkcollection($pid)) {
     } else {
         // echo "<script>alert('收藏失败！');window.location.href='products.php';</script>";
         // echo "alert('收藏失败！');";
-        echo "error";
+        echo "";
         // echo $pid;
     }
 } else {
@@ -26,15 +28,17 @@ if (!checkcollection($pid)) {
 function addcollection($pid)
 {
     include "connect.php";
-    include_once "checklogin.php";
+    // include_once "checklogin.php";
     $uid = getuid();
     $sql = "insert into collection(uid,pid) values (?,?)";
     $stmt = $con->stmt_init();
     $stmt->prepare($sql);
     $stmt->bind_param("ss", $uid, $pid);
     if ($stmt->execute()) {
+        $stmt->close();
         return true;
     } else {
+        $stmt->close();
         return false;
     }
 }
@@ -48,8 +52,10 @@ function delcollection($pid)
     $stmt->prepare($sql);
     $stmt->bind_param("ss", $uid, $pid);
     if ($stmt->execute()) {
+        $stmt->close();
         return true;
     } else {
+        $stmt->close();
         return false;
     }
 }
@@ -65,8 +71,10 @@ function checkcollection($pid)
     $stmt->execute();
     $stmt->bind_result($id);
     if ($stmt->fetch()) {
+        $stmt->close();
         return true;
     } else {
+        $stmt->close();
         return false;
     }
 }

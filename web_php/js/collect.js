@@ -10,7 +10,7 @@ $(document).ready(function () {
             if (data == "success") {
                 alert("收藏成功！");
                 $(abc).text("取消收藏");
-            } else if (data == "error") {
+            } else if (data == "") {
                 alert("添加收藏失败，请检查");
                 $(abc).text("收藏");
             } else if (data == "del") {

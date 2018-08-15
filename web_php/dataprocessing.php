@@ -107,6 +107,7 @@ function getTotalPage()
     if ($stmt->fetch()) {
         // echo $totalcount;
         // echo ceil($totalcount / TOTAL_SIZE);
+        $stmt->close();
         return ceil($totalcount / TOTAL_SIZE);
     }
 }
