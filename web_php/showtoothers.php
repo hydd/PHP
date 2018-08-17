@@ -1,7 +1,11 @@
 <?php
-include "dataprocessing.php";
-if (!isLogin()) {
-    header("refresh:1;url=login.html"); //如果成功跳转至商品页面
+session_start();
+include "dealcollection.php";
+include_once "checklogin.php";
+$flag = false;
+if (isLogin()) {
+    // header("refresh:1;url=login.html"); //如果成功跳转至商品页面
+    $flag = true;
 }
 ?>
 
@@ -38,16 +42,36 @@ if (!isLogin()) {
 
     <div class="container theme-showcase" role="main">
 
-        <!-- Main jumbotron for a primary marketing message or call to action -->
+    <?php
+if ($flag != tuye) {
+    echo "<a href='login.html' style='font-size:8' class='col-md-offset-9'>登录</a>";
+    echo "<a href='signup.html' style='font-size:8' class='col-md-offset-1'>没有账号？点击注册</a>";
+} else {
+    $name = $_SESSION['name'];
+    echo "<a href='' class='col-md-offset-9'></a>" . $name . "<a href='logout.php' class='col-md-offset-1' style='text-decoration: none;'>点击退出</a>";
+}
+?>
+
         <div class="jumbotron">
-            <h1 align="center">我的收藏</h1>
-            <a href="products.php?type=1" style="font-size:8" class="">全部商品</a>
-            <a href='personalInfo.php' style="font-size:8" class="col-md-offset-10">个人主页</a>
-            <!-- <p>This is a template showcasing the optional theme stylesheet included in Bootstrap. Use it as a starting point to create something more unique by building on or modifying it.</p> -->
+            <?php
+include "encryption.php";
+$share = $_GET['share'];
+$uid = decrypt($share);
+// echo $id;
+$user = getuser($uid);
+echo "<h1 align='center'>" . $user . "的心愿单</h1>";
+// <h1 align="center">心愿单</h1>
+?>
+        <a href="products.php?type=1" style="font-size:8" class="">全部商品</a>
+        <a href='personalInfo.php' style="font-size:8" class="col-md-offset-10">个人主页</a>
         </div>
 
         <div class="page-header">
-        <button class='share btn btn-default col-md-offset-10'>点击分享我的心愿单</button></td><td>
+        <?php
+if (!isLogin()) {
+    echo "<h1><a href='login.html' class='col-md-offset-5'>登录查看价格</a></h1>";
+}
+?>
         </div>
         <div class="row">
             <div class="col-md-2">
@@ -56,7 +80,7 @@ if (!isLogin()) {
                 <table class="table table-hover">
                     <div align="center">
                         <?php
-getPid();
+getPid($uid);
 ?>
                     </div>
 
@@ -78,7 +102,6 @@ getPid();
     <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script> -->
     <!-- 加载 Bootstrap 的所有 JavaScript 插件。你也可以根据需要只加载单个插件。 -->
     <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <script src="./js/share.js"></script>
 </body>
 
 </html>

@@ -21,7 +21,7 @@
  *
  * @return void
  */
-function postmail($to, $subject = '', $body = '', $username = '', $type = '')
+function postmail($to, $subject, $body, $username, $type)
 {
     error_reporting(E_STRICT);
     date_default_timezone_set('Asia/Shanghai'); //设定时区东八区
@@ -48,10 +48,23 @@ function postmail($to, $subject = '', $body = '', $username = '', $type = '')
     $mail->SetFrom('747346001@qq.com', 'YYCX'); //设置收件人看到的邮箱和用户
     // $mail->AddReplyTo('xxx@xxx.xxx','who');
     $mail->Subject = $subject;
-    $mail->Body = "亲爱的" . $username . "：<br/>感谢您在我站注册了新帐号。<br/>请点击链接激活您的帐号。<br/>
-    <a href='http://localhost/web_PHP/active.php?verify=" . $body . "&type=" . $type . "' target=
-'_blank'>http://localhost/web_PHP/active.php?verify=" . $body . "&type=" . $type . "</a><br/>
-    如果以上链接无法点击，请将它复制到你的浏览器地址栏中进入访问。";
+//     $mail->Body = "亲爱的" . $username . "：<br/>感谢您在我站注册了新帐号。<br/>请点击链接激活您的帐号。<br/>
+    //     <a href='http://localhost/web_PHP/active.php?verify=" . $body . "&type=" . $type . "' target=
+    // '_blank'>http://localhost/web_PHP/active.php?verify=" . $body . "&type=" . $type . "</a><br/>
+    //     如果以上链接无法点击，请将它复制到你的浏览器地址栏中进入访问。";
+    if ($type == "signup") {
+        $mail->Body = "亲爱的" . $username . "：<br/>感谢您在我站注册了新帐号。<br/>请点击链接激活您的帐号。<br/>
+        <a href='http://118.25.102.34/hydd/active.php?verify=" . $body . "&type=" . $type . "' target=
+    '_blank'>http://118.25.102.34/hydd/active.php?verify=" . $body . "&type=" . $type . "</a><br/>
+        如果以上链接无法点击，请将它复制到你的浏览器地址栏中进入访问。";
+    } else if ($type == "retrpwd") {
+
+        $mail->Body = "重置密码？ <br/> 如果你申请了重置" . $username . "的密码，请点击以下链接。如果你并没有做出该请求，请忽略这封邮件。" . "<br/>
+        <a href='http://118.25.102.34/hydd/active.php?verify=" . $body . "&type=" . $type . "' target=
+    '_blank'>http://118.25.102.34/hydd/active.php?verify=" . $body . "&type=" . $type . "</a><br/>
+        如果以上链接无法点击，请将它复制到你的浏览器地址栏中进入访问。";
+    }
+
     // $mail->Body ='This is the HTML 信息 body <b>in bold!</b>. Time:'.date('Y-m-d H:i:s');
     $mail->AltBody = '为了查看该邮件，请切换到支持 HTML 的邮件客户端.';
 

@@ -27,5 +27,21 @@ function getuid()
     if ($stmt->fetch()) {
         $stmt->close();
         return $id;
-    } 
+    }
+}
+
+function getuser($id)
+{
+    include "connect.php";
+    mysqli_query($con, "set names utf8"); //utf8 设为对应的编码
+    $sql = "select username from user where id = ?";
+    $stmt = $con->stmt_init();
+    $stmt->prepare($sql);
+    $stmt->bind_param("s", $id);
+    $stmt->execute();
+    $stmt->bind_result($id);
+    if ($stmt->fetch()) {
+        $stmt->close();
+        return $id;
+    }
 }
