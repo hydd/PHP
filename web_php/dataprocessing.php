@@ -196,7 +196,7 @@ function getPid()
         echo "null";
     } else {
         // echo "<link rel='stylesheet' href='https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css' integrity='sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u' crossorigin='anonymous'>";
-        echo '<tr><th>' . '编号' . '<th>' . '商品' . '<th>' . '简介' . '<th>' . '价格' . '<th>' .'<th>' .'<tr>';
+        echo '<tr><th>' . '编号' . '<th>' . '商品' . '<th>' . '简介' . '<th>' . '价格' . '<th>' . '<th>' . '<tr>';
         // echo $pid;
         getCollection($pid);
         while ($stmt->fetch()) {
@@ -259,6 +259,9 @@ function showPageBanner()
         $page_banner .= "<a href='" . $_SERVER['PHP_SELF'] . "?p=" . 1 . "&&search=$search' style='text-decoration: none;'>首页&emsp;</a>";
         $page_banner .= "<a href='" . $_SERVER['PHP_SELF'] . "?p=" . ($page - 1) . "&&search=$search' style='text-decoration: none;'>上一页&emsp;</a>";
 
+    } else {
+        $page_banner .= "<a href='" . $_SERVER['PHP_SELF'] . "?p=" . 1 . "&&search=$search' style='text-decoration: none;'>首页&emsp;</a>";
+        $page_banner .= "<a href='" . $_SERVER['PHP_SELF'] . "?p=" . ($page - 1) . "&&search=$search' style='text-decoration: none; color:#C1C0C0;' onclick='return false;'>上一页&emsp;</a>";
     }
     //头部省略
     if ($total_pages > $showpage) {
@@ -281,9 +284,9 @@ function showPageBanner()
     }
     for ($i = $start; $i <= $end; $i++) {
         if ($i == getPage()) {
-            $page_banner .= "<a href='" . $_SERVER['PHP_SELF'] . "?p=" . $i . "&&search=$search' style='color:#FF0000;text-decoration: none;'>$i&emsp;</a>";
+            $page_banner .= "<a href='" . $_SERVER['PHP_SELF'] . "?p=" . $i . "&search=$search' style='color:#FF0000;text-decoration: none;display:inline-block;width:30px;height:30px;'>$i&emsp;</a>";
         } else {
-            $page_banner .= "<a href='" . $_SERVER['PHP_SELF'] . "?p=" . $i . "&&search=$search' style='text-decoration: none;'>$i&emsp;</a>";
+            $page_banner .= "<a href='" . $_SERVER['PHP_SELF'] . "?p=" . $i . "&search=$search' style='text-decoration: none;display:inline-block;width:30px;height:30px;'>$i&emsp;</a>";
         }
     }
     //尾部省略
@@ -291,9 +294,13 @@ function showPageBanner()
         $page_banner .= "...&emsp;";
     }
     if ($page < $total_pages) {
-        $page_banner .= "<a href='" . $_SERVER['PHP_SELF'] . "?p=" . ($page + 1) . "&&search=$search' style='text-decoration: none;'>下一页&emsp;</a>";
-        $page_banner .= "<a href='" . $_SERVER['PHP_SELF'] . "?p=" . ($total_pages) . "&&search=$search' style='text-decoration: none;'>末页&emsp;</a>";
+        $page_banner .= "<a href='" . $_SERVER['PHP_SELF'] . "?p=" . ($page + 1) . "&search=$search' style='text-decoration: none;'>下一页&emsp;</a>";
+        $page_banner .= "<a href='" . $_SERVER['PHP_SELF'] . "?p=" . ($total_pages) . "&search=$search' style='text-decoration: none;'>末页&emsp;</a>";
 
+    } else {
+
+        $page_banner .= "<a href='" . $_SERVER['PHP_SELF'] . "?p=" . ($page + 1) . "&search=$search' style='text-decoration: none; color:#C1C0C0;' onclick='return false;'>下一页&emsp;</a>";
+        $page_banner .= "<a href='" . $_SERVER['PHP_SELF'] . "?p=" . ($total_pages) . "&search=$search' style='text-decoration: none;'>末页&emsp;</a>";
     }
     $page_banner .= "<br></br>";
     // $page_banner .= "共{$total_pages}页,";
