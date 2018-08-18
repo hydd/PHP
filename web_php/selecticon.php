@@ -1,4 +1,4 @@
-<?php
+<?php //选择用户头像
 session_start();
 $name = $_SESSION['name'];
 // $name = "1";

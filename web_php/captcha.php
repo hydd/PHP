@@ -1,4 +1,4 @@
-<?php
+<?php  //生成随机验证码文件
 session_start(); //启动session
 
 $image = imagecreatetruecolor(120, 40); //创建一个宽120，高度40的图片

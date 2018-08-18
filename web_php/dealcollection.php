@@ -1,5 +1,6 @@
 <?php
-function getPid($uid)
+function getPid($uid) //返回商品ID  getPid在data-processing文件中存在同名函数！！！
+
 {
     include "connect.php";
     mysqli_query($con, "set names utf8"); //utf8 设为对应的编码
@@ -28,7 +29,8 @@ function getPid($uid)
     }
 
 }
-function getCollection($pid)
+function getCollection($pid) //返回心愿单内容  getCollection在data-processing文件中存在同名函数！！！
+
 {
     include "connect.php";
     mysqli_query($con, "set names utf8"); //utf8 设为对应的编码

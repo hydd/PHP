@@ -24,7 +24,7 @@ if (isset($_POST['submit'])) {
     exit("错误执行");
 }
 
-function checkpwd($name)
+function checkpwd($name) //检测密码格式及密码内容
 {
     $oldpwd = $_POST['password'];
     $newpwd = $_POST['password1'];
@@ -56,7 +56,7 @@ function checkpwd($name)
     }
 }
 
-function updatePwd($name)
+function updatePwd($name) //更新密码
 {
     $pwd1 = md5($_POST['password1']);
 

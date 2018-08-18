@@ -13,7 +13,7 @@ function isLogin()
     }
 }
 
-function getuid()
+function getuid() // 通过session存储的用户名获取用户ID
 {
     include "connect.php";
     mysqli_query($con, "set names utf8"); //utf8 设为对应的编码
@@ -30,7 +30,7 @@ function getuid()
     }
 }
 
-function getuser($id)
+function getuser($id) // 通过传入的用户ID获取用户名
 {
     include "connect.php";
     mysqli_query($con, "set names utf8"); //utf8 设为对应的编码

@@ -21,7 +21,7 @@ if ($type == "signup") {
     // checkTime($verify);
 }
 
-function newAccount($verify)
+function newAccount($verify)  //判断是否为新注册未激活用户
 {
     include "connect.php"; //连接数据库
     mysqli_query($con, "set names utf8"); //utf8 设为对应的编码
@@ -63,7 +63,7 @@ function newAccount($verify)
     exit();
 }
 
-function changePwd($verify)
+function changePwd($verify) //通判断用户是否申请召回并重制密码
 {
     $status = 1;
     include "connect.php"; //连接数据库
@@ -90,7 +90,7 @@ function changePwd($verify)
     }
 }
 
-function setSession($verify)
+function setSession($verify) 
 {
     $_SESSION['verify'] = $verify;
 }

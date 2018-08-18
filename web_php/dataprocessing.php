@@ -13,7 +13,7 @@ if (!isLogin()) {
     </script>";
     exit();
 }
-function getSearch()
+function getSearch()    //得到用户搜索内容
 {
     $type = $_GET['type']; //查看全部商品
     // echo "type" . $type . "tppe";
@@ -30,7 +30,7 @@ function getSearch()
 
     return $search;
 }
-function getSql()
+function getSql()   //生成对应操作sql语句
 {
     $total_size = TOTAL_SIZE;
     $search = getSearch();
@@ -76,7 +76,7 @@ function getSql()
     // echo $sql;
     return $sql;
 }
-function getCountSql()
+function getCountSql()  //得到总搜索条数
 {
     $total_size = TOTAL_SIZE;
     $search = getSearch();
@@ -90,7 +90,7 @@ function getCountSql()
     }
     return $sql;
 }
-function getTotalPage()
+function getTotalPage() //返回总显示页数
 {
     include "connect.php";
     $search = getSearch();
@@ -112,7 +112,7 @@ function getTotalPage()
     }
 }
 
-function getPage()
+function getPage()  //返回当前页
 {
     $page = $_GET['p'];
     // echo "p" . $page;
@@ -124,7 +124,7 @@ function getPage()
     return $page;
 }
 
-function getData()
+function getData()  //返回查询内容
 {
     include "connect.php";
     $search = getSearch();
@@ -180,7 +180,7 @@ function getData()
     //关闭连接
     mysqli_close($con);
 }
-function getPid()
+function getPid()   //返回商品ID
 {
     include "connect.php";
     mysqli_query($con, "set names utf8"); //utf8 设为对应的编码
@@ -206,7 +206,7 @@ function getPid()
     }
 
 }
-function getCollection($pid)
+function getCollection($pid) //返回用户收藏内容
 {
     include "connect.php";
     mysqli_query($con, "set names utf8"); //utf8 设为对应的编码
@@ -242,7 +242,7 @@ function getCollection($pid)
     }
 }
 
-function showPageBanner()
+function showPageBanner() //显示分页
 {
     $page = getPage();
     $total_pages = getTotalPage();

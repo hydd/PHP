@@ -4,7 +4,7 @@ if (isset($_POST['sub'])) {
     $img = $_POST['test'];
     isimg($img);
 }
-function isimg($img)
+function isimg($img)    //判断文件是否为图片文件格式
 {
     if ($img == "") {
         echo "<script>alert('请先选择头像！'); history.go(-1);</script>";
@@ -23,7 +23,7 @@ function isimg($img)
         }
     }
 }
-function checkHex($img_path)
+function checkHex($img_path) //判断图片文件是否为真正图片文件
 {
     if (file_exists($img_path)) {
         $resource = fopen($img_path, 'rb');
@@ -50,7 +50,7 @@ function checkHex($img_path)
         return false;
     }
 }
-function saveimg($base64_image_content)
+function saveimg($base64_image_content) //上传图片文件
 {
     if (preg_match('/^(data:\s*image\/(\w+);base64,)/', $base64_image_content, $result)) {
         $type = $result[2];
@@ -94,7 +94,7 @@ function saveimg($base64_image_content)
         }
     }
 }
-function geticonpath($type)
+function geticonpath($type) //得到图片文件存储路径
 {
     include "connect.php";
     $name = $_SESSION['name'];
@@ -118,7 +118,7 @@ function geticonpath($type)
     $stmt->close();
 }
 
-function updateiconpath($path)
+function updateiconpath($path)  //更新用户头像存储路径
 {
     include "connect.php";
     $name = $_SESSION['name'];

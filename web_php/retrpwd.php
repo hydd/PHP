@@ -23,7 +23,7 @@ if (!checkemail($_POST['email']) || !checkname($_POST['name'])) {
     exit();
 }
 
-function checkPer()
+function checkPer() //判断用户是否存在
 {
     $name = $_POST['name']; //post获取表单里的name
     // $token = md5($name . time());
@@ -47,7 +47,7 @@ function checkPer()
     $stmt->close();
 }
 
-function retrpwd($token)
+function retrpwd($token) //发送邮件，重制密码
 {
     include 'connect.php'; //链接数据库
     include 'sendMail.php'; //发送激活邮件

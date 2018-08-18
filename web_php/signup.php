@@ -1,5 +1,6 @@
 <?php
 session_start();
+unset($_SESSION['share']);
 header("Content-Type: text/html; charset=utf8");
 if (isset($_POST['submit'])) {
     // if (isset($_REQUEST['autocode'])) {

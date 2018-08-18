@@ -26,7 +26,7 @@ if (isset($_POST['submit'])) {
     exit("请先登录");
 }
 
-function checkname()
+function checkname() //判断输入用户名是否存在
 {
     include 'connect.php';
     $newname = $_POST['name'];
@@ -48,7 +48,7 @@ function checkname()
     }
 }
 
-function findinfo($name)
+function findinfo($name)    //得到当前用户ID
 {
     // echo $name;
     include "connect.php";
@@ -72,7 +72,7 @@ function findinfo($name)
     }
 }
 
-function updateusername($id)
+function updateusername($id) //使用当前用户ID修改用户名
 {
     $newname = $_POST['name'];
     include "connect.php";
