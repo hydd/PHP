@@ -21,9 +21,11 @@ if ($type == "signup") {
     // checkTime($verify);
 }
 
-function newAccount($verify)  //判断是否为新注册未激活用户
+function newAccount($verify) //判断是否为新注册未激活用户
+
 {
     include "connect.php"; //连接数据库
+    include "invition.php"; //更新邀请者邀请注册并激活人数
     mysqli_query($con, "set names utf8"); //utf8 设为对应的编码
     $status = 0;
 
@@ -49,6 +51,10 @@ function newAccount($verify)  //判断是否为新注册未激活用户
             $stmt->bind_param("s", $id);
             if ($stmt->execute()) {
                 $msg = '激活成功！';
+                $fromid = getFromId($id);
+                if ($fromid != 0) {
+                    updateActivitionNum($fromid, getActivitionNum($fromid) + 1);
+                }
                 header("refresh:1;url=login.html"); //如果成功跳转至登陆页面
             } else {
                 die(mysqli_error($con)); //如果sql执行失败输出错误
@@ -64,6 +70,7 @@ function newAccount($verify)  //判断是否为新注册未激活用户
 }
 
 function changePwd($verify) //通判断用户是否申请召回并重制密码
+
 {
     $status = 1;
     include "connect.php"; //连接数据库
@@ -90,7 +97,7 @@ function changePwd($verify) //通判断用户是否申请召回并重制密码
     }
 }
 
-function setSession($verify) 
+function setSession($verify)
 {
     $_SESSION['verify'] = $verify;
 }

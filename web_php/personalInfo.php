@@ -24,14 +24,6 @@ if (!isLogin()) {
     <meta name="description" content="">
     <meta name="author" content="">
     <title>个人信息</title>
-
-    <!-- Bootstrap core CSS -->
-    <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
-    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-
-
-    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
-    <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
     <style type="text/css">
     .round_icon{
       width: 100px;
@@ -45,6 +37,25 @@ if (!isLogin()) {
   </head>
 
   <body>
+  <div id ="myModal1" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">邀请注册</h4>
+        </div>
+        <div class="modal-body">
+            <p>请将以下链接分享给您的好友。</p>
+            <input type="text" id="input" value="" style="width:75%" readonly></input>
+            <button class="btn btn-default" onclick="copyUrl()">点击复制链接</button>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+        </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
 
     <div class="container theme-showcase" role="main">
     <a href='products.php' style='text-decoration: none;'>查看所有商品</a>
@@ -54,11 +65,11 @@ if (!isLogin()) {
       <!-- Main jumbotron for a primary marketing message or call to action -->
       <div class="jumbotron">
         <h1 align="center">个人信息</h1>
-        <!-- <p>This is a template showcasing the optional theme stylesheet included in Bootstrap. Use it as a starting point to create something more unique by building on or modifying it.</p> -->
       </div>
 
       <div class="page-header">
-        <!-- <h1>Tables</h1> -->
+      <button type="button" class='invite btn btn-default' data-toggle="modal" data-target="#myModal1">邀请好友注册</button></td><td>
+      <a href='changeicon.html' class="col-md-offset-9 btn btn-default" role="button">设置头像</a>
       </div>
       <div class="row">
         <div class="col-md-2">
@@ -66,7 +77,6 @@ if (!isLogin()) {
         <div class="col-md-8">
           <table class="table table-hover">
             <thead>
-            <a href='changeicon.html' class="col-md-offset-12 btn btn-default btn-lg active btn-sm" role="button">设置头像</a>
             </thead>
               <br><br><br>
               <img border="1" class="col-md-offset-5  round_icon" id="capthcha_img" src="selecticon.php" align="center"></img>
@@ -78,13 +88,13 @@ include "connect.php";
 
 unset($_SESSION['search']);
 $name = $_SESSION['name'];
-$sql = "select * from user where username = '$name'";
-$sql = "select username,email from user where username = ?";
+// $sql = "select * from user where username = '$name'";
+$sql = "select username,email,clicknum,regnum,actnum from user where username = ?";
 $stmt = $con->stmt_init();
 if ($stmt->prepare($sql)) {
     $stmt->bind_param("s", $name);
     $stmt->execute();
-    $stmt->bind_result($username, $email);
+    $stmt->bind_result($username, $email, $clicknum, $regnum, $actnum);
 }
 // if ($stmt->fetch()) {
 //     printf("%s : %s", $username, $email);
@@ -96,9 +106,9 @@ if (isset($_SESSION['name']) && !empty($_SESSION['name'])) {
 
     // echo '<tr><th>' . '姓名' . '<th>' . '邮箱' . '<th>' . '简介' . '<th>';
     while ($stmt->fetch()) {
-        //    print_r($row);
-        // echo $row[0];
-        // echo 'while';
+        $clicknum = $clicknum == "" ? 0 : $clicknum;
+        $regnum = $regnum == "" ? 0 : $regnum;
+        $actnum = $actnum == "" ? 0 : $actnum;
         $info = "此用户什么也没有填写";
         // echo "<tr><td>" . $row["username"] . "</td><td>" . $row["email"] . "</td><td>" . $info . "</td><tr>";
         $namelink = "updatename.html";
@@ -108,7 +118,10 @@ if (isset($_SESSION['name']) && !empty($_SESSION['name'])) {
         echo "<tr><td>" . '密码:' . "<td>" . "******";
         echo "<td>" . "<a href='{$pwdlink}'>修改密码</a>";
         echo "<tr><td>" . '邮箱:' . "<td>" . $email . "<td>";
-        echo "<tr><td>" . '简介:' . "<td>" . $info . "<td><tr>";
+        echo "<tr><td>" . '简介:' . "<td>" . $info . "<td>";
+        echo "<tr><td>" . '邀请链接被点击次数:' . "<td>" . $clicknum . "<td>";
+        echo "<tr><td>" . '成功邀请注册人数:' . "<td>" . $regnum . "<td>";
+        echo "<tr><td>" . '成功邀请注册并激活人数:' . "<td>" . $actnum . "<td><tr>";
 
     }
 } else {
@@ -131,13 +144,15 @@ mysqli_close($con);
         </div>
       </div>
     </div> <!-- /container -->
-
-
-    <!-- Bootstrap core JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-    <!-- 加载 Bootstrap 的所有 JavaScript 插件。你也可以根据需要只加载单个插件。 -->
-    <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <!-- Bootstrap core CSS -->
+    <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script src="./js/share.js?v=1"></script>
   </body>
 </html>

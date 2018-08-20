@@ -45,28 +45,37 @@ function singup()
     // echo $email;
     $status = 0;
     $icon = null;
+    if (isset($_SESSION['fromid']) && !empty($_SESSION['fromid'])) {
+        $fromid = $_SESSION['fromid'];
+        unset($_SESSION['fromid']);
+    } else {
+        $fromid = null;
+    }
     include 'connect.php'; //链接数据库
     include 'sendMail.php'; //发送激活邮件
+    include "invition.php"; //更新邀请者邀请成功人数
     mysqli_query($con, "set names utf8"); //utf8 设为对应的编码
     // $q = "insert into user(id,username,password,email,token,status) values (null,'$name','$password','$email','$token',$status)"; //向数据库插入表单传来的值的sql
     // $q = "insert into user(id,username,password,email,token,status,regtime,restime,respwd,icon) values (null,'$name','$md5pwd','$email','$token','$status','$regtime','$restime','$respwd',null)"; //向数据库插入表单传来的值的sql
     //查询
-    $sql = "insert into user(username,password,email,token,status,regtime,restime,respwd) values (?,?,?,?,?,?,?,?)"; //向数据库插入表单传来的值的sql
+    $sql = "insert into user(username,password,email,token,status,regtime,restime,respwd,fromid) values (?,?,?,?,?,?,?,?,?)"; //向数据库插入表单传来的值的sql
     $stmt = $con->stmt_init();
     if ($stmt->prepare($sql)) {
-        $stmt->bind_param("ssssssss", $name, md5($password), $email, $token, $status, $regtime, $restime, $respwd);
+        $stmt->bind_param("sssssssss", $name, md5($password), $email, $token, $status, $regtime, $restime, $respwd, $fromid);
         // $stmt->execute();
         if ($stmt->execute()) {
             postmail($email, '注册', $token, $name, 'signup');
             header("refresh:0;url=checkMail.html"); //如果成功跳转至登陆页面
             // echo "注册成功"; //成功输出注册成功
+            if ($fromid != 0) {
+                updateRegistrationNum($fromid, getRegistrationNum($fromid) + 1);
+            }
             exit();
         } else {
             die(mysqli_error($con));
         }
         $stmt->close();
     }
-
     mysqli_close($con); //关闭数据库
 }
 

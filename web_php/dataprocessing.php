@@ -13,7 +13,8 @@ if (!isLogin()) {
     </script>";
     exit();
 }
-function getSearch()    //得到用户搜索内容
+function getSearch() //得到用户搜索内容
+
 {
     $type = $_GET['type']; //查看全部商品
     // echo "type" . $type . "tppe";
@@ -30,7 +31,8 @@ function getSearch()    //得到用户搜索内容
 
     return $search;
 }
-function getSql()   //生成对应操作sql语句
+function getSql() //生成对应操作sql语句
+
 {
     $total_size = TOTAL_SIZE;
     $search = getSearch();
@@ -76,7 +78,8 @@ function getSql()   //生成对应操作sql语句
     // echo $sql;
     return $sql;
 }
-function getCountSql()  //得到总搜索条数
+function getCountSql() //得到总搜索条数
+
 {
     $total_size = TOTAL_SIZE;
     $search = getSearch();
@@ -91,6 +94,7 @@ function getCountSql()  //得到总搜索条数
     return $sql;
 }
 function getTotalPage() //返回总显示页数
+
 {
     include "connect.php";
     $search = getSearch();
@@ -112,7 +116,8 @@ function getTotalPage() //返回总显示页数
     }
 }
 
-function getPage()  //返回当前页
+function getPage() //返回当前页
+
 {
     $page = $_GET['p'];
     // echo "p" . $page;
@@ -124,7 +129,8 @@ function getPage()  //返回当前页
     return $page;
 }
 
-function getData()  //返回查询内容
+function getData() //返回查询内容
+
 {
     include "connect.php";
     $search = getSearch();
@@ -180,7 +186,8 @@ function getData()  //返回查询内容
     //关闭连接
     mysqli_close($con);
 }
-function getPid()   //返回商品ID
+function getPid() //返回商品ID
+
 {
     include "connect.php";
     mysqli_query($con, "set names utf8"); //utf8 设为对应的编码
@@ -193,7 +200,7 @@ function getPid()   //返回商品ID
     $stmt->bind_result($pid);
     echo "<script src='./js/collect.js'></script>";
     if (!$stmt->fetch()) {
-        echo "null";
+        echo "<h1 align='center'>您还没有收藏东西，请先到商品栏进行收藏！</h1>";
     } else {
         // echo "<link rel='stylesheet' href='https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css' integrity='sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u' crossorigin='anonymous'>";
         echo '<tr><th>' . '编号' . '<th>' . '商品' . '<th>' . '简介' . '<th>' . '价格' . '<th>' . '<th>' . '<tr>';
@@ -207,6 +214,7 @@ function getPid()   //返回商品ID
 
 }
 function getCollection($pid) //返回用户收藏内容
+
 {
     include "connect.php";
     mysqli_query($con, "set names utf8"); //utf8 设为对应的编码
@@ -243,6 +251,7 @@ function getCollection($pid) //返回用户收藏内容
 }
 
 function showPageBanner() //显示分页
+
 {
     $page = getPage();
     $total_pages = getTotalPage();
