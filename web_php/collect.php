@@ -5,7 +5,9 @@ if (!isLogin()) {
     </script>";
     exit();
 }
-$pid = $_GET['x'];
+$pid = $_POST['x'];
+// echo $pid;
+
 if (!checkcollection($pid)) {
     // echo $pid;
     if (addcollection($pid)) {
@@ -25,7 +27,8 @@ if (!checkcollection($pid)) {
         echo "ndel";
     }
 }
-function addcollection($pid)    //添加收藏
+function addcollection($pid) //添加收藏
+
 {
     include "connect.php";
     // include_once "checklogin.php";
@@ -43,8 +46,9 @@ function addcollection($pid)    //添加收藏
     }
 }
 
-function delcollection($pid)    //删除收藏
-{   
+function delcollection($pid) //删除收藏
+
+{
     include "connect.php";
     $uid = getuid();
     $sql = "delete from collection where uid = ? and pid =?";
@@ -60,7 +64,8 @@ function delcollection($pid)    //删除收藏
     }
 }
 
-function checkcollection($pid)  //判断是否已收藏
+function checkcollection($pid) //判断是否已收藏
+
 {
     include "connect.php";
     $uid = getuid();

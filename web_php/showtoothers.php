@@ -6,12 +6,12 @@ $flag = false;
 if (isLogin()) {
     // header("refresh:1;url=login.html"); //如果成功跳转至商品页面
     $flag = true;
-    // 设置标志位，当用户通过他人分享心愿单链接进行登录是，登录后跳转到他人心愿单界面
     if (isset($_SESSION['share']) && $_SESSION['share'] == "shared") {
         unset($_SESSION['share']);
-    } else {
-        $_SESSION['share'] = "shared";
     }
+} else {
+    // 设置标志位，当用户通过他人分享心愿单链接进行登录是，登录后跳转到他人心愿单界面
+    $_SESSION['share'] = "shared";
 }
 ?>
 
@@ -63,7 +63,7 @@ if ($flag != tuye) {
 include "encryption.php";
 $share = $_GET['share'];
 $url = "http://118.25.102.34/hydd/showtoothers.php?share=" . $share;
-$_SESSION['url'] = $url;  //将用户心愿单分享链接存入session
+$_SESSION['url'] = $url; //将用户心愿单分享链接存入session
 // unset($_SESSION['url']);
 // 解密用户ID
 $uid = decrypt($share);

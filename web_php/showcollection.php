@@ -18,7 +18,7 @@ if (!isLogin()) {
     <meta name="description" content="">
     <meta name="author" content="">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-
+    <script src="./js/share.js"></script>
     <title>心愿单</title>
     <!-- Bootstrap core CSS -->
 
@@ -35,6 +35,25 @@ if (!isLogin()) {
 </head>
 
 <body>
+    <div id ="myModal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">分享我的心愿单</h4>
+        </div>
+        <div class="modal-body">
+            <p>请将以下链接分享给您的好友。</p>
+            <input type="text" id="input" value="" style="width:75%" readonly></input>
+            <button class="btn btn-default" onclick="copyUrl()">点击复制链接</button>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+        </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
 
     <div class="container theme-showcase" role="main">
 
@@ -47,7 +66,7 @@ if (!isLogin()) {
         </div>
 
         <div class="page-header">
-        <button class='share btn btn-default col-md-offset-10'>点击分享我的心愿单</button></td><td>
+        <button type="button" class='share btn btn-default col-md-offset-10' data-toggle="modal" data-target="#myModal">点击分享我的心愿单</button></td><td>
         </div>
         <div class="row">
             <div class="col-md-2">
@@ -69,16 +88,6 @@ getPid();
         </div>
     </div>
     </div>
-    <!-- /container -->
-
-
-    <!-- Bootstrap core JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script> -->
-    <!-- 加载 Bootstrap 的所有 JavaScript 插件。你也可以根据需要只加载单个插件。 -->
-    <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <script src="./js/share.js"></script>
 </body>
 
 </html>

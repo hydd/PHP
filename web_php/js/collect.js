@@ -3,7 +3,7 @@ $(document).ready(function () {
         var abc = $(this);
         var id = $(this).data("id");
         // alert(data);
-        $.get("collect.php", {
+        $.post("collect.php", {
             x: id
         }, function (data) {
             // alert(data);
@@ -31,7 +31,7 @@ $(document).ready(function () {
         var abc = $(this);
         var id = $(this).data("id");
         // alert(data);
-        $.get("collect.php", {
+        $.post("collect.php", {
             x: id
         }, function (data) {
             // alert(data);

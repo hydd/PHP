@@ -1,26 +1,20 @@
 <?php
-session_start();
+// 加密算法
+$encryptMethod = 'aes-256-cbc';
+// 明文数据
+$data = 88;
 
-include "connect.php";
-$username = "test1";
-$password = "123456";
-$status = 0;
-$verify = "87409b12dd7aa3690ccd9cce1302a15a";
-
-$query = "SELECT id FROM user WHERE status = ? and token = ?";
-// $query = "select nid,name,info,price form mi_products";
-
-$stmt = $con->stmt_init();
-
-if ($stmt->prepare($query)) {
-    $stmt->bind_param("ss", $status, $verify);
-    $stmt->execute();
-
-    $stmt->bind_result($status);
-    if ($stmt->fetch()) {
-        printf("%s \n", $status);
-    } else {
-        echo "null";
-    }
-    $stmt->close();
+// 生成IV
+$ivLength = openssl_cipher_iv_length($encryptMethod);
+$iv = openssl_random_pseudo_bytes($ivLength, $isStrong);
+if (false === $iv && false === $isStrong) {
+    die('IV generate failed');
 }
+
+// 加密
+$encrypted = openssl_encrypt($data, $encryptMethod, 'secret', 0, $iv);
+// 解密
+$decrypted = openssl_decrypt($encrypted, $encryptMethod, 'secret', 0, $iv);
+
+echo $encrypted;
+echo "解密".$decrypted;
