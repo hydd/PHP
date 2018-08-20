@@ -70,7 +70,7 @@ if ($name && $passowrd) { //如果用户名和密码都不为空
         // printf("%s \n", $status);
         if ($status == '1') {
             $_SESSION['name'] = $name;
-            if ($_SESSION['share'] == "shared") {  // 点击心愿单进入的登录界面
+            if ($_SESSION['share'] == "shared") { // 点击心愿单进入的登录界面
                 $url = $_SESSION['url'];
                 header("refresh:0;url=$url"); //如果成功跳转至商品页面
             } else {
@@ -78,10 +78,11 @@ if ($name && $passowrd) { //如果用户名和密码都不为空
             }
             exit;
         } else {
-            echo "请先激活您的账号！";
+            echo "<h1 align='center'>请先激活您的账号！</h1>";
+
             echo "
                       <script>
-                            setTimeout(function(){window.location.href='login.html';},100);
+                            setTimeout(function(){window.location.href='login.html';},3000);
                       </script>";
 
             //如果错误使用js 1秒后跳转到登录页面重试;

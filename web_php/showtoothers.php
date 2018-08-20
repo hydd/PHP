@@ -9,9 +9,6 @@ if (isLogin()) {
     if (isset($_SESSION['share']) && $_SESSION['share'] == "shared") {
         unset($_SESSION['share']);
     }
-} else {
-    // 设置标志位，当用户通过他人分享心愿单链接进行登录是，登录后跳转到他人心愿单界面
-    $_SESSION['share'] = "shared";
 }
 ?>
 
@@ -49,7 +46,7 @@ if (isLogin()) {
     <div class="container theme-showcase" role="main">
 
     <?php
-if ($flag != tuye) {
+if (!flag) {
     echo "<a href='login.html' style='font-size:8' class='col-md-offset-9'>登录</a>";
     echo "<a href='signup.html' style='font-size:8' class='col-md-offset-1'>没有账号？点击注册</a>";
 } else {
@@ -62,14 +59,28 @@ if ($flag != tuye) {
             <?php
 include "encryption.php";
 $share = $_GET['share'];
-$url = "http://118.25.102.34/hydd/showtoothers.php?share=" . $share;
-$_SESSION['url'] = $url; //将用户心愿单分享链接存入session
-// unset($_SESSION['url']);
+
 // 解密用户ID
 $uid = decrypt($share);
 // echo $id;
+
+if (is_numeric($uid) && isUser($uid)) {
+    $user = getuser($uid);
+    if (!isLogin()) {
+        // 设置标志位，当用户通过他人分享心愿单链接进行登录是，登录后跳转到他人心愿单界面
+        $_SESSION['share'] = "shared";
+
+        $url = "http://118.25.102.34/hydd/showtoothers.php?share=" . $share;
+        $_SESSION['url'] = $url; //将用户心愿单分享链接存入session
+        // unset($_SESSION['url']);
+    }
+} else {
+    echo "<h1 align='center'>请使用正确的链接！</h1>";
+    echo "<script>setTimeout(function(){window.location.href='login.html';},3000);</script>";
+    exit();
+}
+
 //获取用户名
-$user = getuser($uid);
 echo "<h1 align='center'>" . $user . "的心愿单</h1>";
 // <h1 align="center">心愿单</h1>
 ?>

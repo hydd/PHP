@@ -67,7 +67,7 @@ function singup()
             postmail($email, '注册', $token, $name, 'signup');
             header("refresh:0;url=checkMail.html"); //如果成功跳转至登陆页面
             // echo "注册成功"; //成功输出注册成功
-            if ($fromid != 0) {
+            if (!is_null($fromid)) {
                 updateRegistrationNum($fromid, getRegistrationNum($fromid) + 1);
             }
             exit();
