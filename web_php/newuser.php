@@ -2,6 +2,7 @@
 include "encryption.php";
 include "invition.php";
 include "checklogin.php";
+include "userinfo.php";
 $uid = decrypt($_GET['share']);
 // echo $uid;
 if (is_numeric($uid) && isUser($uid)) {

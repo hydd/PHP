@@ -54,9 +54,13 @@ function postmail($to, $subject, $body, $username, $type)
     //     如果以上链接无法点击，请将它复制到你的浏览器地址栏中进入访问。";
     if ($type == "signup") {
         $mail->Body = "亲爱的" . $username . "：<br/>感谢您在我站注册了新帐号。<br/>请点击链接激活您的帐号。<br/>
-        <a href='http://118.25.102.34/hydd/active.php?verify=" . $body . "&type=" . $type . "' target=
-    '_blank'>http://118.25.102.34/hydd/active.php?verify=" . $body . "&type=" . $type . "</a><br/>
+        <a href='http://localhost/web_PHP/active.php?verify=" . $body . "&type=" . $type . "' target=
+    '_blank'>http://localhost/web_PHP/active.php?verify=" . $body . "&type=" . $type . "</a><br/>
         如果以上链接无法点击，请将它复制到你的浏览器地址栏中进入访问。";
+        //     $mail->Body = "亲爱的" . $username . "：<br/>感谢您在我站注册了新帐号。<br/>请点击链接激活您的帐号。<br/>
+        //     <a href='http://118.25.102.34/hydd/active.php?verify=" . $body . "&type=" . $type . "' target=
+        // '_blank'>http://118.25.102.34/hydd/active.php?verify=" . $body . "&type=" . $type . "</a><br/>
+        //     如果以上链接无法点击，请将它复制到你的浏览器地址栏中进入访问。";
     } else if ($type == "retrpwd") {
 
         $mail->Body = "重置密码？ <br/> 如果你申请了重置" . $username . "的密码，请点击以下链接。如果你并没有做出该请求，请忽略这封邮件。" . "<br/>

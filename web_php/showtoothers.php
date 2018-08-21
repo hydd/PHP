@@ -46,7 +46,7 @@ if (isLogin()) {
     <div class="container theme-showcase" role="main">
 
     <?php
-if (!flag) {
+if (!isLogin()) {
     echo "<a href='login.html' style='font-size:8' class='col-md-offset-9'>登录</a>";
     echo "<a href='signup.html' style='font-size:8' class='col-md-offset-1'>没有账号？点击注册</a>";
 } else {
@@ -58,6 +58,7 @@ if (!flag) {
         <div class="jumbotron">
             <?php
 include "encryption.php";
+include "userinfo.php";
 $share = $_GET['share'];
 
 // 解密用户ID

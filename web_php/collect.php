@@ -1,5 +1,6 @@
 <?php
 include_once "checklogin.php";
+include_once "userinfo.php";
 if (!isLogin()) {
     echo "<script>alert('请先登录！');setTimeout(function(){window.location.href='login.html';},100);
     </script>";

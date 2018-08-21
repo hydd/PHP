@@ -1,7 +1,8 @@
 <?php
 session_start();
 
-function updateUserClickNum($uid, $clicknum)
+function updateUserClickNum($uid, $clicknum) //更新用户邀请被点击次数
+
 {
     include "connect.php";
     mysqli_query($con, "set names utf8"); //utf8 设为对应的编码
@@ -12,7 +13,8 @@ function updateUserClickNum($uid, $clicknum)
     $stmt->execute();
 }
 
-function getUserClickNum($uid)
+function getUserClickNum($uid) //查看用户邀请链接被点击次数
+
 {
     include "connect.php";
     mysqli_query($con, "set names utf8"); //utf8 设为对应的编码
@@ -32,7 +34,8 @@ function getUserClickNum($uid)
     return $id;
 }
 
-function getRegistrationNum($uid)
+function getRegistrationNum($uid) //查看通过用户邀请链接注册人数
+
 {
     include "connect.php";
     mysqli_query($con, "set names utf8");
@@ -52,7 +55,8 @@ function getRegistrationNum($uid)
     return $regnum;
 }
 
-function updateRegistrationNum($uid, $regnum)
+function updateRegistrationNum($uid, $regnum) //更新通过用户连接注册人数
+
 {
     include "connect.php";
     mysqli_query($con, "set names utf8"); //utf8 设为对应的编码
@@ -63,7 +67,8 @@ function updateRegistrationNum($uid, $regnum)
     $stmt->execute();
 }
 
-function getActivitionNum($uid)
+function getActivitionNum($uid) //查看通过用户链接注册并激活人数
+
 {
     include "connect.php";
     mysqli_query($con, "set names utf8");
@@ -76,14 +81,15 @@ function getActivitionNum($uid)
     if ($stmt->fetch()) {
         if ($actnum == "") {
             $actnum = 0;
-        } 
+        }
     } else {
         die(mysqli_error($con));
     }
     return $actnum;
 }
 
-function updateActivitionNum($uid, $actnum)
+function updateActivitionNum($uid, $actnum) //更新通过用户链接注册并激活人数
+
 {
     include "connect.php";
     mysqli_query($con, "set names utf8"); //utf8 设为对应的编码
@@ -94,7 +100,8 @@ function updateActivitionNum($uid, $actnum)
     $stmt->execute();
 }
 
-function getFromId($uid)
+function getFromId($uid) //得到父用户
+
 {
     include "connect.php";
     mysqli_query($con, "set names utf8");
@@ -113,3 +120,6 @@ function getFromId($uid)
     }
     return $fromid;
 }
+
+
+

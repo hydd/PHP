@@ -190,6 +190,7 @@ function getPid() //返回商品ID
 
 {
     include "connect.php";
+    include "userinfo.php";
     mysqli_query($con, "set names utf8"); //utf8 设为对应的编码
     $uid = getuid();
     $sql = "select pid from collection where uid = ?";
