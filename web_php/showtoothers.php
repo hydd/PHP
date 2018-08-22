@@ -103,7 +103,7 @@ if (!isLogin()) {
                 <table class="table table-hover">
                     <div align="center">
                         <?php
-getPid($uid);
+getPid_others($uid);
 ?>
                     </div>
 

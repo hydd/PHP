@@ -204,7 +204,7 @@ function getPid() //返回商品ID
         echo "<h1 align='center'>您还没有收藏东西，请先到商品栏进行收藏！</h1>";
     } else {
         // echo "<link rel='stylesheet' href='https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css' integrity='sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u' crossorigin='anonymous'>";
-        echo '<tr><th>' . '编号' . '<th>' . '商品' . '<th>' . '简介' . '<th>' . '价格' . '<th>' . '<th>' . '<tr>';
+        echo '<tr><th>' . '编号' . '<th>' . '商品' . '<th>' . '简介' . '<th>' . '价格' . '<th>' . '<th>' . '<th>' . '<tr>';
         // echo $pid;
         getCollection($pid);
         while ($stmt->fetch()) {
@@ -237,11 +237,11 @@ function getCollection($pid) //返回用户收藏内容
             $id = $row["nid"];
             echo "<tr><td>" . $row["nid"] . "</td><td>" . $row["name"] . "</td><td>" . $row["info"] . "</td><td>" . $row["price"] . "</td><td>";
             if (!checkcollection($row["nid"])) {
-                echo "<button class='mycollect btn btn-default' data-id='" . $row['nid'] . "'>收藏</button></td><td>";
+                echo "<button class='mycollect btn btn-default btn-sm' data-id='" . $row['nid'] . "'>收藏</button></td><td>";
             } else {
-                echo "<button class='mycollect btn btn-primary' data-id='" . $row['nid'] . "'>取消收藏</button></td><td>";
+                echo "<button class='mycollect btn btn-primary btn-sm' data-id='" . $row['nid'] . "'>取消收藏</button></td><td>";
             }
-
+            echo "<button class='favorite btn btn-default btn-sm' data-id='" . $row['nid'] . "' data-toggle='modal' data-target='#myModal_1'>更换收藏夹</button></td><td>";
             echo "<wb:share-button addition='simple' type='button' title='您的好友向您推荐：" . $row["name"] . "' url='http://118.25.102.34/hydd/products.php?search=" . $row['name'] . "'></wb:share-button></td></tr>";
         }
 

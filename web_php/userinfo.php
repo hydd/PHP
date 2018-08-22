@@ -97,15 +97,16 @@ function getSonInfo($uid) //得到儿子用户的部分信息
 {
     include "connect.php";
     mysqli_query($con, "set names utf8");
-    $sql = "select id,username,email from user where fromid = ?";
+    $sql = "select id,username,email,actnum from user where fromid = ?";
     $stmt = $con->stmt_init();
     $stmt->prepare($sql);
     $stmt->bind_param("s", $uid);
     $stmt->execute();
-    $stmt->bind_result($id, $username, $email);
+    $stmt->bind_result($id, $username, $email, $actnum);
     $all_sons = array();
     while ($stmt->fetch()) {
-        array_push($all_sons, array($id, $username, $email, $uid));
+        $actnum = $actnum == "" ? 0 : $actnum;
+        array_push($all_sons, array($id, $username, $email, $actnum, $uid));
     }
     // print_r($all_sons);
     return $all_sons;

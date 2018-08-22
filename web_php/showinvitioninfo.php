@@ -69,7 +69,7 @@ if ($stmt->prepare($sql)) {
 if (isset($_SESSION['name']) && !empty($_SESSION['name'])) {
     //查询语句
 
-    echo '<tr><th>' . '昵称' . '<th>' . '邀请链接点击人数' . '<th>' . '注册人数' . '<th>' . "激活人数" . "<th>";
+    echo '<tr><th>' . '昵称' . '<th>' . '邀请链接点击次数' . '<th>' . '注册人数' . '<th>' . "激活人数" . "<th>";
     while ($stmt->fetch()) {
         $clicknum = $clicknum == "" ? 0 : $clicknum;
         $regnum = $regnum == "" ? 0 : $regnum;
@@ -84,12 +84,14 @@ if (isset($_SESSION['name']) && !empty($_SESSION['name'])) {
 $sons = getAllSonsInfo(getuid($name), 3);
 $i = 1;
 foreach ($sons as $son) {
-    echo " <table class='table table-bordered'><thead><tr><th>ID</th><th>" . 第 . $i . 代用户名 . "</th><th>Email</th><th>邀请人</th></tr></thead><tbody>";
-    foreach ($son as $so) {
-        echo " <tr><td>" . $so[0] . "</td><td>" . $so[1] . "</td><td>" . $so[2] . "</td><td>" . getuser($so[3]) . "</td></tr>";
+    if (count($son) != 0) {
+        echo " <table class='table table-bordered'><thead><tr><th>ID</th><th>" . 第 . $i . 代用户名 . "</th><th>Email</th><th>下一级邀请人数</th><th>来自邀请人</th></tr></thead><tbody>";
+        foreach ($son as $so) {
+            echo " <tr><td>" . $so[0] . "</td><td>" . $so[1] . "</td><td>" . $so[2] . "</td><td>" . $so[3] . "</td><td>" . getuser($so[4]) . "</td></tr>";
+        }
+        echo " </tbody></table>";
+        $i++;
     }
-    echo " </tbody></table>";
-    $i++;
 }
 //释放
 $stmt->close();

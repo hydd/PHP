@@ -1,5 +1,5 @@
 <?php
-function getPid($uid) //返回商品ID  getPid在data-processing文件中存在同名函数！！！
+function getPid_others($uid) //返回商品ID  getPid在data-processing文件中存在同名函数！！！
 
 {
     include "connect.php";
