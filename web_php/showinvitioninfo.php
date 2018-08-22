@@ -2,7 +2,7 @@
 session_start();
 include_once "checklogin.php";
 if (!isLogin()) {
-    echo "<script>alert('请先登录！');setTimeout(function(){window.location.href='login.html';},100);
+    echo "<script>alert('请先登录！');setTimeout(function(){window.location.href='login.html';},1000);
     </script>";
     exit();
 }
@@ -33,7 +33,7 @@ if (!isLogin()) {
   <body>
 
     <div class="container theme-showcase" role="main">
-    <a href='personalinfo.php' style='text-decoration: none;'>我的主页</a>
+    <a href='personalInfo.php' style='text-decoration: none;'>我的主页</a>
     <a href='logout.php' class="col-md-offset-10" style='text-decoration: none;'>退出登录</a>
 
       <!-- Main jumbotron for a primary marketing message or call to action -->
@@ -81,12 +81,16 @@ if (isset($_SESSION['name']) && !empty($_SESSION['name'])) {
     $size = 12;
     echo "<font size=" . $size . ">" . '请先登录！' . "</font>";
 }
-$sons = getAllSons(getuid($name), 3);
-echo " <table class='table table-bordered'><thead><tr><th>ID</th><th>用户名</th><th>Email</th><th>邀请人</th></tr></thead><tbody>";
+$sons = getAllSonsInfo(getuid($name), 3);
+$i = 1;
 foreach ($sons as $son) {
-    echo " <tr><td>" . $son[0] . "</td><td>" . $son[1] . "</td><td>" . $son[2] . "</td><td>" . getuser($son[3]) . "</td></tr>";
+    echo " <table class='table table-bordered'><thead><tr><th>ID</th><th>" . 第 . $i . 代用户名 . "</th><th>Email</th><th>邀请人</th></tr></thead><tbody>";
+    foreach ($son as $so) {
+        echo " <tr><td>" . $so[0] . "</td><td>" . $so[1] . "</td><td>" . $so[2] . "</td><td>" . getuser($so[3]) . "</td></tr>";
+    }
+    echo " </tbody></table>";
+    $i++;
 }
-echo " </tbody></table>";
 //释放
 $stmt->close();
 
@@ -112,6 +116,6 @@ mysqli_close($con);
 
     <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
     <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-    <script src="./js/share.js?v=1"></script>
+    <script src="./js/share.js?v=2"></script>
   </body>
 </html>

@@ -69,8 +69,8 @@ function getSonId($uid) //得到儿子用户
     while ($stmt->fetch()) {
         array_push($all_sons, $sons);
     }
-    print_r($all_sons);
-    // return $all_sons;
+    // print_r($all_sons);
+    return $all_sons;
 }
 
 function getInfo($uid) //获取用户的部分信息
@@ -92,13 +92,9 @@ function getInfo($uid) //获取用户的部分信息
     }
     return $info;
 }
-// print_r(getAllSons(88, 2));
-// getAllSons(88, 3);
-function getAllSons($uid, $n)
+function getSonInfo($uid) //得到儿子用户的部分信息
+
 {
-    static $sons = array();
-    static $sn = 1;
-    static $count = 0;
     include "connect.php";
     mysqli_query($con, "set names utf8");
     $sql = "select id,username,email from user where fromid = ?";
@@ -107,27 +103,32 @@ function getAllSons($uid, $n)
     $stmt->bind_param("s", $uid);
     $stmt->execute();
     $stmt->bind_result($id, $username, $email);
-    $info = array();
+    $all_sons = array();
     while ($stmt->fetch()) {
-        array_push($info, array($id, $username, $email, $uid));
-        array_push($sons, array($id, $username, $email, $uid));
-        // $info = array($uid, $username, $email);
+        array_push($all_sons, array($id, $username, $email, $uid));
     }
-    $count++;
-    // print_r($count);
-    // echo " " . $uid . " ";
-    // print_r(count($info));
-    if ($count == count($info)) {
-        $sn++;
-        $count = 0;
-    }
+    // print_r($all_sons);
+    return $all_sons;
+}
+// getAllSonsInfo(88, 3);
+function getAllSonsInfo($uid, $n) //获取指定用户指定代数的子孙信息 $uid 指定用户 $n 指定代数
 
-    if ($sn < $n) {
-        // print_r($sons);
-        foreach ($info as $value) {
-            getAllSons($value[0], $n);
+{
+    static $sons = array();
+    array_push($sons, getSonInfo($uid)); //默认添加儿子节点信息
+    static $sn = 0;
+
+    while ($sn < $n - 1) {
+        $count = count($sons[$sn]); //得到当前代数子孙节点数量
+        $info = array();
+        for ($loc = 0; $loc < $count; $loc++) { //得到所有子孙节点的儿子节点的信息并保存
+            foreach (getSonInfo($sons[$sn][$loc][0]) as $temp) {
+                array_push($info, $temp);
+            }
         }
+        array_push($sons, $info);
+        $sn++;
     }
-
+    // print_r($sons);
     return $sons;
 }

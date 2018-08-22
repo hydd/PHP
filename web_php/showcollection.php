@@ -18,7 +18,7 @@ if (!isLogin()) {
     <meta name="description" content="">
     <meta name="author" content="">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-    <script src="./js/share.js?v=1"></script>
+    <script src="./js/share.js?v=2"></script>
     <title>心愿单</title>
     <!-- Bootstrap core CSS -->
 

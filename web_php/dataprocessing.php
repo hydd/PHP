@@ -156,7 +156,7 @@ function getData() //返回查询内容
         } else {
             showPageBanner();
             echo '<tr><th>' . '编号' . '<th>' . '商品' . '<th>' . '简介' . '<th>' . '价格' . '<tr>';
-            echo "<script src='./js/collect.js'></script>";
+            echo "<script src='./js/collect.js?v=2'></script>";
             include_once "collect.php";
             while ($row = $result->fetch_assoc()) {
 
@@ -199,7 +199,7 @@ function getPid() //返回商品ID
     $stmt->bind_param("s", $uid);
     $stmt->execute();
     $stmt->bind_result($pid);
-    echo "<script src='./js/collect.js'></script>";
+    echo "<script src='./js/collect.js?v=2'></script>";
     if (!$stmt->fetch()) {
         echo "<h1 align='center'>您还没有收藏东西，请先到商品栏进行收藏！</h1>";
     } else {

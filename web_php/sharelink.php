@@ -18,8 +18,8 @@ function create_share_link($id, $type) //创建分享链接
     if ($type == "share") {
         $url = "http://118.25.102.34/hydd/showtoothers.php";
     } else if ($type == "inivite") {
-        // $url = "http://118.25.102.34/hydd/newuser.php";
-        $url = "localhost/web_php/newuser.php";
+        $url = "http://118.25.102.34/hydd/newuser.php";
+        // $url = "localhost/web_php/newuser.php";
     }
     // $info = "请复制以下链接分享给您的好友。";
     // $id = 88;

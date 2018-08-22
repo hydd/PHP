@@ -11,7 +11,7 @@ function getPid($uid) //返回商品ID  getPid在data-processing文件中存在�
     $stmt->bind_param("s", $uid);
     $stmt->execute();
     $stmt->bind_result($pid);
-    echo "<script src='./js/collect.js'></script>";
+    echo "<script src='./js/collect.js?v=2'></script>";
     if (!$stmt->fetch()) {
         echo "null";
     } else {
