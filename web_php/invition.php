@@ -121,23 +121,3 @@ function getFromId($uid) //得到父用户
     return $fromid;
 }
 
-// getCollectType();
-
-function getCollectType()
-{
-    include "connect.php";
-    mysqli_query($con, "set names utf8");
-    // $id = 1;
-    $sql = "select name from favorites ";
-    $stmt = $con->stmt_init();
-    $stmt->prepare($sql);
-    // $stmt->bind_param("s", $id);
-    $stmt->execute();
-    $stmt->bind_result($name);
-    $names = array();
-    while ($stmt->fetch()) {
-        array_push($names, $name);
-    }
-    // print_r($names);
-    return $names;
-}
