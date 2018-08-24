@@ -155,8 +155,8 @@ function getData() //返回查询内容
             echo "<br>";
         } else {
             showPageBanner();
-            echo '<tr><th>' . '编号' . '<th>' . '商品' . '<th>' . '简介' . '<th>' . '价格' . '<tr>';
-            echo "<script src='./js/collect.js?v=2'></script>";
+            echo '<tr><th>' . '编号' . '<th>' . '商品' . '<th>' . '简介' . '<th>' . '价格' . '<th>' . '<tr>';
+            echo "<script src='./js/collect.js?v=3'></script>";
             include_once "collect.php";
             while ($row = $result->fetch_assoc()) {
 
@@ -167,9 +167,9 @@ function getData() //返回查询内容
                 // echo "<input type=button onclick=\"allow('$id',this);\" value='like'>" . "</td><tr>";
                 // echo "<a href='collect.php?x=" . $id . "'>收藏</a></td><tr>";
                 if (!checkcollection($row["nid"])) {
-                    echo "<button class='collect btn btn-default' data-id='" . $row['nid'] . "'>收藏</button></td><tr>";
+                    echo "<button class='collect btn btn-default' data-type='add' data-id='" . $row['nid'] . "'>收藏</button></td><tr>";
                 } else {
-                    echo "<button class='collect btn btn-primary' data-id='" . $row['nid'] . "'>取消收藏</button></td><tr>";
+                    echo "<button class='collect btn btn-primary' data-type='del' data-id='" . $row['nid'] . "'>取消收藏</button></td><tr>";
                 }
             }
         }
@@ -186,7 +186,7 @@ function getData() //返回查询内容
     //关闭连接
     mysqli_close($con);
 }
-function getPid() //返回商品ID
+function getPid($fid) //返回商品ID
 
 {
     include "connect.php";
@@ -199,21 +199,41 @@ function getPid() //返回商品ID
     $stmt->bind_param("s", $uid);
     $stmt->execute();
     $stmt->bind_result($pid);
-    echo "<script src='./js/collect.js?v=2'></script>";
     if (!$stmt->fetch()) {
         echo "<h1 align='center'>您还没有收藏东西，请先到商品栏进行收藏！</h1>";
     } else {
         // echo "<link rel='stylesheet' href='https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css' integrity='sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u' crossorigin='anonymous'>";
-        echo '<tr><th>' . '编号' . '<th>' . '商品' . '<th>' . '简介' . '<th>' . '价格' . '<th>' . '<th>' . '<th>' . '<tr>';
+        // echo '<tr><th>' . '编号' . '<th>' . '商品' . '<th>' . '简介' . '<th>' . '价格' . '<th>' . '<th>' . '<th>' . '<tr>';
         // echo $pid;
-        getCollection($pid);
-        while ($stmt->fetch()) {
-            // echo $pid;
-            getCollection($pid);
-        }
+        getTypeCollection($uid, $fid);
     }
 
 }
+function getTypeCollection($uid, $fid) //得到收藏夹内物品id
+
+{
+    include "connect.php";
+    mysqli_query($con, "set names utf8");
+    $sql = "select pid from collection where uid = ? and fid = ?";
+    $stmt = $con->stmt_init();
+    $stmt->prepare($sql);
+    $stmt->bind_param("ss", $uid, $fid);
+    $stmt->execute();
+    $stmt->bind_result($pid);
+    // echo "<script src='./js/collect.js?v=2'></script>";
+    if (!$stmt->fetch()) {
+        echo "<h1 align='center'>收藏夹为空！</h1>";
+    } else {
+        echo '<tr><th>' . '编号' . '<th>' . '商品' . '<th>' . '简介' . '<th>' . '价格' . '<th>' . '<th>' . '<th>' . '<tr>';
+        // echo $pid . " ";
+        getCollection($pid);
+        while ($stmt->fetch()) {
+            // echo $pid . " ";
+            getCollection($pid);
+        }
+    }
+}
+
 function getCollection($pid) //返回用户收藏内容
 
 {
@@ -229,7 +249,7 @@ function getCollection($pid) //返回用户收藏内容
     if (isLogin()) {
         // echo "<br>";
         if ($row == "") {
-            echo "<h1 align='center'>查询为空！</h1>";
+            echo "<h1 align='center'>该收藏夹为空！</h1>";
             echo "<br>";
         } else {
             // showPageBanner();
@@ -237,11 +257,11 @@ function getCollection($pid) //返回用户收藏内容
             $id = $row["nid"];
             echo "<tr><td>" . $row["nid"] . "</td><td>" . $row["name"] . "</td><td>" . $row["info"] . "</td><td>" . $row["price"] . "</td><td>";
             if (!checkcollection($row["nid"])) {
-                echo "<button class='mycollect btn btn-default btn-sm' data-id='" . $row['nid'] . "'>收藏</button></td><td>";
+                echo "<button class='mycollect btn btn-default btn-sm' data-type='del' data-id='" . $row['nid'] . "'>收藏</button></td><td>";
             } else {
-                echo "<button class='mycollect btn btn-primary btn-sm' data-id='" . $row['nid'] . "'>取消收藏</button></td><td>";
+                echo "<button class='mycollect btn btn-primary btn-sm' data-type='del' data-id='" . $row['nid'] . "'>取消收藏</button></td><td>";
             }
-            echo "<button class='favorite btn btn-default btn-sm' data-id='" . $row['nid'] . "' data-toggle='modal' data-target='#myModal_1'>更换收藏夹</button></td><td>";
+            echo "<button class='favorite btn btn-default btn-sm' data-id='" . $row['nid'] . "' data-toggle='modal' data-target='#myModal_2'>更换收藏夹</button></td><td>";
             echo "<wb:share-button addition='simple' type='button' title='您的好友向您推荐：" . $row["name"] . "' url='http://118.25.102.34/hydd/products.php?search=" . $row['name'] . "'></wb:share-button></td></tr>";
         }
 
@@ -312,14 +332,14 @@ function showPageBanner() //显示分页
         $page_banner .= "<a href='" . $_SERVER['PHP_SELF'] . "?p=" . ($page + 1) . "&search=$search' style='text-decoration: none; color:#C1C0C0;' onclick='return false;'>下一页&emsp;</a>";
         $page_banner .= "<a href='" . $_SERVER['PHP_SELF'] . "?p=" . ($total_pages) . "&search=$search' style='text-decoration: none;'>末页&emsp;</a>";
     }
-    $page_banner .= "<br></br>";
+    $page_banner .= "<br></br><tr><td colspan='3'>";
     // $page_banner .= "共{$total_pages}页,";
     $page_banner .= "<form action='products.php' method='get'>";
-    $page_banner .= "到第<input type='test' size='2' name='p'>页";
-    $page_banner .= ",共{$total_pages}页&emsp;";
+    $page_banner .= "到第&emsp;<input type='test' size='4' name='p'>&emsp;页";
+    $page_banner .= ",共{$total_pages}页&emsp;&emsp;";
 
-    $page_banner .= "<input type='submit' class='btn btn-primary' value='确定'>&emsp;</input>";
-    $page_banner .= "<input type='text' size='8' name='search' placeholder='$search' method='get'>&emsp;</input>";
+    $page_banner .= "<input type='submit' class='btn btn-primary' value='确定'>&emsp;&emsp;&emsp;</input>";
+    $page_banner .= "<input type='text' size='12' name='search' placeholder='$search' method='get'>&emsp;&emsp;&emsp;</input>";
     $page_banner .= "<input type='submit' class='btn btn-primary' value = '搜索'>&emsp;";
     // $page_banner .= "<select name='sort'>
     //                 <option value='1'>编号递增</option>
@@ -328,7 +348,8 @@ function showPageBanner() //显示分页
     //                 <option value='4'>价格递减</option>
     //                 </select>&emsp;&emsp;";
     // $page_banner .= " <input type='submit' value='排序'>";
-
+    $page_banner .= "</form></td><td>";
+    $page_banner .= "<form action='products.php' id='sort_choose' method='get'>";
     $data = array(
         array('id' => 1, 'name' => '编号递增'),
         array('id' => 2, 'name' => '编号递减'),
@@ -337,7 +358,8 @@ function showPageBanner() //显示分页
 
     $id = $_GET['sort'];
     // echo "id" . $id . "id";
-    $page_banner .= "<select name='sort'>";
+    // $page_banner .= "<div class='col-md-3'>";
+    $page_banner .= "<select name='sort' class='form-control' onchange='submitForm_1();'>";
     foreach ($data as $arr) {
         $aid = $arr['id'];
         $aname = $arr['name'];
@@ -349,9 +371,10 @@ function showPageBanner() //显示分页
         }
     }
     $page_banner .= "</select>&emsp;&emsp;";
-    $page_banner .= " <input type='submit' class='btn btn-primary' value='排序'></input>";
+    // $page_banner .= "</div>";
+    // $page_banner .= " <input type='submit' class='btn btn-primary' value='排序'></input>";
 
-    $page_banner .= "</form>";
+    $page_banner .= "</form></td><td></td></tr>";
     if (isLogin()) {
         echo $page_banner;
     }

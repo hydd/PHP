@@ -8,25 +8,39 @@ if (!isLogin()) {
 }
 $pid = $_POST['x'];
 // echo $pid;
-
+$type = $_POST['t'];
+// echo $pid;
+// exit();
 if (!checkcollection($pid)) {
     // echo $pid;
-    if (addcollection($pid)) {
-        // echo "<script>alert('收藏成功！');window.location.href='products.php';</script>";
-        echo "success";
-    } else {
-        // echo "<script>alert('收藏失败！');window.location.href='products.php';</script>";
-        // echo "alert('收藏失败！');";
-        echo "";
-        // echo $pid;
+    if ($type == "add") {
+        if (addcollection($pid)) {
+            // echo "<script>alert('收藏成功！');window.location.href='products.php';</script>";
+            echo "success";
+        } else {
+            // echo "<script>alert('收藏失败！');window.location.href='products.php';</script>";
+            // echo "alert('收藏失败！');";
+            echo "";
+            // echo $pid;
+        }
     }
 } else {
-    // echo "<script>alert('已收藏！');window.location.href='products.php';</script>";
-    if (delcollection($pid)) {
-        echo "del";
-    } else {
-        echo "ndel";
+    if ($type == "del") {
+        if (delcollection($pid)) {
+            echo "del";
+        } else {
+            echo "ndel";
+        }
+    } elseif ($type == "change") {
+        $fid = $_POST['f'];
+        if (changeFavoriteType($fid, $pid)) {
+            echo "changed";
+        } else {
+            echo "unchanged";
+        }
+
     }
+    // echo "<script>alert('已收藏！');window.location.href='products.php';</script>";
 }
 function addcollection($pid) //添加收藏
 
@@ -34,10 +48,11 @@ function addcollection($pid) //添加收藏
     include "connect.php";
     // include_once "checklogin.php";
     $uid = getuid();
-    $sql = "insert into collection(uid,pid) values (?,?)";
+    $fid = 2;
+    $sql = "insert into collection(uid,pid,fid) values (?,?,?)";
     $stmt = $con->stmt_init();
     $stmt->prepare($sql);
-    $stmt->bind_param("ss", $uid, $pid);
+    $stmt->bind_param("sss", $uid, $pid, $fid);
     if ($stmt->execute()) {
         $stmt->close();
         return true;
@@ -81,6 +96,21 @@ function checkcollection($pid) //判断是否已收藏
         return true;
     } else {
         $stmt->close();
+        return false;
+    }
+}
+
+function changeFavoriteType($fid, $pid)
+{
+    include "connect.php";
+    $uid = getuid();
+    $sql = "update collection set fid = ? where uid = ? and pid = ?";
+    $stmt = $con->stmt_init();
+    $stmt->prepare($sql);
+    $stmt->bind_param("sss", $fid, $uid, $pid);
+    if ($stmt->execute()) {
+        return true;
+    } else {
         return false;
     }
 }

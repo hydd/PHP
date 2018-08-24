@@ -20,7 +20,6 @@ if (!isLogin()) {
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="./js/share.js?v=2"></script>
     <title>心愿单</title>
-    <!-- Bootstrap core CSS -->
 
     <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
     <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
@@ -29,8 +28,7 @@ if (!isLogin()) {
     <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
     <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
         crossorigin="anonymous"></script>
-    <script language="JavaScript">
-    </script>
+    <script src="./js/collect.js"></script>
 
 </head>
 
@@ -55,7 +53,7 @@ if (!isLogin()) {
     </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
 
-
+<form align="center" name="form_favorite" action="favoritesmanage.php" method="post">
     <div id ="myModal_1" class="modal fade" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -64,13 +62,13 @@ if (!isLogin()) {
             <h4 class="modal-title" align="center">创建新收藏夹</h4>
         </div>
         <div class="modal-body" align="center">
-            <input type="text" class="form-control" id="title" value="" style="width:90%" placeholder="收藏标题"></input>
+            <input type="text" class="form-control" id="title" name="title" value="" style="width:90%" placeholder="收藏标题"></input>
         </div>
         <div class="modal-body" align="center">
-        <textarea id="info" class="form-control" rows="5" style="width:90%" placeholder="收藏描述（可选）"></textarea>
+        <textarea id="info" class="form-control" name="info" rows="5" style="width:90%" placeholder="收藏描述（可选）"></textarea>
         </div>
         <div align="center">
-            <button type="button" class="btn btn-primary" onclick="copyUrl()"><h5>创建</h5></button>
+            <button type="submit" class="createfavorite btn btn-primary" name="create_favorite"><h5>创建</h5></button>
             <button type="button" class="btn btn-default col-md-offset-1" data-dismiss="modal"><h5>关闭</h5></button>
         </div>
         </div><!-- /.modal-content -->
@@ -78,6 +76,50 @@ if (!isLogin()) {
     <tr></tr>
     </div><!-- /.modal -->
 
+    <div id ="myModal_2" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" align="center">选择收藏夹</h4>
+        </div>
+        <div class="modal-body" align="center">
+
+            <table class="table table-hover">
+                    <div align="center">
+                        <?php
+include_once "favoritesbean.php";
+$collectioninfo = getCollectTypeInfo();
+echo "<tr><th>" . "ID" . "</th><th>" . "名称" . "</th><th>" . "简介" . "</th><th>" . "</th><tr>";
+foreach ($collectioninfo as $info) {
+    echo "<tr><td>" . $info[0] . "</td><td>" . $info[1] . "</td><td>" . $info[2] . "</td><td>";
+    // if (isset($_POST['mycollections'])) {
+    //     $coltype = $_POST['mycollections'];
+    // } else {
+    //     $coltype = 2;
+    // }
+    $coltype = $_POST['mycollections'] == "" ? 2 : $_POST['mycollections'];
+    if ($coltype == $info[0]) {
+        echo "<button type='button' class='changefavorite btn btn-primary' data-type='change' data-id='" . $info[0] . "' disabled='disabled'>当前收藏夹</button></td></tr>";
+    } else {
+        echo "<button type='button' class='changefavorite btn btn-default' data-type='change' data-id='" . $info[0] . "'>选择</button></td></tr>";
+    }
+
+}
+?>
+                    </div>
+                    </tr>
+                </table>
+        </div>
+        <div align="center">
+            <!-- <button type="submit" class="btn btn-primary" name="change_favorite"><h5>确定</h5></button> -->
+            <button type="button" class="btn btn-default col-md-offset-1" data-dismiss="modal"><h5>返回</h5></button>
+        </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+    <tr></tr>
+    </div><!-- /.modal -->
+</form>
 
     <div class="container theme-showcase" role="main">
 
@@ -98,19 +140,28 @@ if (!isLogin()) {
             <div class="col-md-8">
 
             <div class="form-group">
-            <label for="inputText3" class="col-md-3 col-md-offset-1 control-label">收藏夹</label>
+            <label for="inputText3" class="col-md-2 col-md-offset-1 control-label">收藏夹</label>
             <!-- <div class="col-md-2"></div> -->
+<form align="center" name="show_favorite" id="show_favorite" action="showcollection.php" method="post">
+
             <div class="col-md-4">
-            <select class="form-control">
+            <select class="form-control" name="mycollections" onchange="submitForm();">
                 <?php
-include_once "invition.php";
-$types = getCollectType();
+include_once "favoritesbean.php";
+$types = getCollectTypeInfo();
 foreach ($types as $type) {
-    echo "<option>" . $type . "</option>";
+
+    if ($_POST['mycollections'] == $type[0]) {
+        echo "<option value=$type[0] selected='selected'>" . $type[1] . "</option>";
+    } else {
+        echo "<option value=$type[0]>" . $type[1] . "</option>";
+    }
+
 }
 ?>
                 </select>
             </div>
+</form>
             <div class="col-md-2">
                 <button type="butthon" class = "btn btn-default col-md-offset-4" data-toggle="modal" data-target="#myModal_1">创建新收藏夹</button>
             </div>
@@ -119,7 +170,13 @@ foreach ($types as $type) {
                 <table class="table table-hover">
                     <div align="center">
                         <?php
-getPid();
+if (isset($_POST['mycollections']) && $_POST['mycollections'] != "") {
+    $fid = $_POST['mycollections'];
+} else {
+    $fid = 2;
+}
+// echo $fid;
+getPid($fid);
 ?>
                     </div>
                     </tr>
