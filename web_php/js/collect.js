@@ -92,6 +92,6 @@ function submitForm() {
 }
 
 function submitForm_1() {
-    var form = document.getElementById("sort_choose");
+    var form = document.getElementById("show_favorite");
     form.submit();
 }
