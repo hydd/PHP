@@ -82,6 +82,29 @@ $(document).ready(function () {
         // alert(id);
         // p_id = id;
     });
+    $(".mycollections_m").change(function () {
+        var sel = $(this);
+        var id = $(this).data("id");
+        // alert($(this).data("id"));
+        // alert($(this).val());
+        $.ajax({
+            url: 'favoritesmanage.php',
+            data: {
+                fid: $(this).data("id"),
+                faid: $(this).val()
+            },
+            type: 'post',
+            success: function (output) {
+                if (output == "ok") {
+                    alert("修改成功");
+                    $('#myModal_3').modal('hide');
+                } else {
+                    alert("修改失败，请刷新重试");
+                    $('#myModal_3').modal('hide');
+                }
+            }
+        });
+    });
 });
 var p_id;
 var prod;
@@ -92,6 +115,11 @@ function submitForm() {
 }
 
 function submitForm_1() {
+    var form = document.getElementById("show_favorite");
+    form.submit();
+}
+
+function submitForm_m() {
     var form = document.getElementById("show_favorite");
     form.submit();
 }

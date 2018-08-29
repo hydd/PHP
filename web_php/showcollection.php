@@ -49,7 +49,7 @@ if (!isLogin()) {
     <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
     <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
         crossorigin="anonymous"></script>
-    <script src="./js/collect.js?v=1"></script>
+    <script src="./js/collect.js?v=2"></script>
 
 </head>
 
@@ -152,17 +152,14 @@ $collectioninfo = getAllCollectTypeInfo();
 echo "<tr><th>" . "ID" . "</th><th>" . "名称" . "</th><th>" . "简介" . "</th><th>" . "修改父收藏夹" . "</th><tr>";
 foreach ($collectioninfo as $info) {
     echo "<tr><td>" . $info[0] . "</td><td>" . $info[1] . "</td><td>" . $info[2] . "</td><td>";
-    // $coltype = $_POST['mycollections'] == "" ? 2 : $_POST['mycollections'];
-    // if ($coltype == $info[0]) {
-    //     echo "<button type='button' class='changefavorite btn btn-primary' data-type='change' data-id='" . $info[0] . "' disabled='disabled'>当前收藏夹</button></td></tr>";
-    // } else {
-    //     echo "<button type='button' class='changefavorite btn btn-default' data-type='change' data-id='" . $info[0] . "'>选择</button></td></tr>";
-    // }
-    echo "<select class='form-control' name='mycollections_m' onchange='submitForm_m();'>";
+    echo "<select class='mycollections_m form-control' id = 'mycollections_m' name='mycollections_m' data-id='" . $info[0] . "'>";
     include_once "favoritesbean.php";
-    $types = getCollectTypeInfo(1);
+    if ($info[3] == 1) {
+        echo "<option value=1 selected='selected'>" . "无" . "</option>";
+    }
+    $types = getAllCollectTypeInfo();
     foreach ($types as $type) {
-        if ($info[0] == $type[0]) {
+        if (getFather($info[0]) == $type[0]) {
             echo "<option value=$type[0] selected='selected'>" . $type[1] . "</option>";
         } else {
             echo "<option value=$type[0]>" . $type[1] . "</option>";
@@ -229,6 +226,7 @@ foreach ($types as $type) {
 
             <?php
 if (isFather($_POST['mycollections'])) {
+    // unset($_POST['mycollections_1']);
     echo "<div class='col-md-2'>";
     echo "<select class='form-control' name='mycollections_1' onchange='submitForm_1();'>";
     include_once "favoritesbean.php";
@@ -240,14 +238,17 @@ if (isFather($_POST['mycollections'])) {
         } else {
             echo "<option value=$type[0]>" . $type[1] . "</option>";
         }
-        echo "</select></div>";
     }
+    echo "</select></div>";
 } else {
+    unset($_POST['mycollections_1']);
+    // echo $_POST['mycollections_1'] . " 1 ";
     echo "<div class='col-md-2'></div>";
 }
 ?>
             <?php
-if (isFather($_POST['mycollections_1'])) {
+if (isset($_POST['mycollections_1']) && $_POST['mycollections_1'] != "" && isFather($_POST['mycollections_1'])) {
+    // echo $_POST['mycollections_1'];
     echo "<div class='col-md-2'>";
     echo "<select class='form-control' name='mycollections_2' onchange='submitForm_1();'>";
     include_once "favoritesbean.php";
@@ -259,9 +260,11 @@ if (isFather($_POST['mycollections_1'])) {
         } else {
             echo "<option value=$type[0]>" . $type[1] . "</option>";
         }
-        echo "</select></div>";
     }
+    echo "</select></div>";
 } else {
+    // unset($_POST['mycollections_1']);
+    // echo $_POST['mycollections_1'] . " 2 ";
     echo "<div class='col-md-2'></div>";
 }
 ?>
@@ -276,13 +279,25 @@ if (isFather($_POST['mycollections_1'])) {
                 <table class="table table-hover">
                     <div align="center">
                         <?php
+if (isset($_POST['mycollections_2']) && $_POST['mycollections_2'] != "") {
+    $fid_2 = $_POST['mycollections_2'];
+    $fid = $fid_2;
+    // echo "<br>fid_2 " . $fid;
+}
 if (isset($_POST['mycollections_1']) && $_POST['mycollections_1'] != "") {
     $fid_1 = $_POST['mycollections_1'];
+    // echo "<br>fid_1 " . $fid_1;
+    if (isset($fid_2) && !empty($fid_2)) {
+        $fid = isSon($fid_1, $fid_2) ? $fid : $fid_1;
+    } else {
+        $fid = $fid_1;
+    }
+    // echo "<br>fid_0 " . $fid;
 }
 if (isset($_POST['mycollections']) && $_POST['mycollections'] != "") {
     $fid_0 = $_POST['mycollections'];
-    if (isset($fid_1) && isSon($fid_0, $fid_1)) {
-        $fid = $fid_1;
+    if (isset($fid_1)) {
+        $fid = isSon($fid_0, $fid_1) ? $fid : $fid_0;
     } else {
         $fid = $fid_0;
     }

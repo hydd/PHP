@@ -20,3 +20,9 @@ if (isset($_POST["create_favorite"])) {
         echo "<script>alert('收藏夹已存在，请重试！'); history.go(-1);</script>";
     }
 }
+if (isset($_POST['fid']) && !empty($_POST['fid']) && isset($_POST['faid']) && !empty($_POST['faid'])) {
+    include_once "favoritesbean.php";    
+    if(updateFavorites($_POST['fid'], $_POST['faid'])){
+    echo "ok";
+    }
+}

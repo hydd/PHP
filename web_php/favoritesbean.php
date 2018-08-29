@@ -1,5 +1,5 @@
 <?php
-// getCollectType();
+// getAllCollectTypeInfo();
 
 function getAllCollectTypeInfo() //返回现有所有收藏夹名称
 
@@ -20,7 +20,7 @@ function getAllCollectTypeInfo() //返回现有所有收藏夹名称
         }
         array_push($cinfo, array($id, $name, $info, $faid));
     }
-    // print_r($names);
+    // print_r($cinfo);
     return $cinfo;
 }
 
@@ -46,6 +46,24 @@ function getCollectTypeInfo($faid) //返回现有一级收藏夹全部信息
     // print_r($collectioninfo);
     return $collectioninfo;
 }
+// getFather(6);
+function getFather($id) //返回父节点ID
+
+{
+    include "connect.php";
+    $sql = "select faid from favorites where id = ?";
+    $stmt = $con->stmt_init();
+    $stmt->prepare($sql);
+    $stmt->bind_param("s", $id);
+    $stmt->execute();
+    $stmt->bind_result($faid);
+    if ($stmt->fetch()) {
+        // print($faid);
+        return $faid;
+    }
+
+}
+
 // createNewFavorite("测试", "");
 function createNewFavorite($name, $info) //新增收藏夹
 
@@ -134,5 +152,20 @@ function getNameById($id) //通过收藏夹id获取名称
         return $name;
     } else {
         die(mysqli_error($con)); //如果sql执行失败输出错误
+    }
+}
+// updateFavorites(17, 2);
+function updateFavorites($fid, $faid) //更新收藏夹
+
+{
+    include "connect.php";
+    $sql = "update favorites set faid = ? where id = ?";
+    $stmt = $con->stmt_init();
+    $stmt->prepare($sql);
+    $stmt->bind_param("ss", $faid, $fid);
+    if ($stmt->execute()) {
+        return true;
+    } else {
+        return false;
     }
 }
