@@ -13,6 +13,10 @@ if (!isLogin()) {
     </script>";
     exit();
 }
+if (isset($_POST['fid']) && !empty($_POST['fid'])) {
+    getPid($_POST['fid']);
+    // echo $_POST['fid'];
+}
 function getSearch() //得到用户搜索内容
 
 {
@@ -261,8 +265,8 @@ function getCollection($pid) //返回用户收藏内容
             } else {
                 echo "<button class='mycollect btn btn-primary btn-sm' data-type='del' data-id='" . $row['nid'] . "'>取消收藏</button></td><td>";
             }
-            echo "<button class='favorite btn btn-default btn-sm' data-id='" . $row['nid'] . "' data-toggle='modal' data-target='#myModal_2'>更换收藏夹</button></td><td>";
-            echo "<wb:share-button addition='simple' type='button' title='您的好友向您推荐：" . $row["name"] . "' url='http://118.25.102.34/hydd/products.php?search=" . $row['name'] . "'></wb:share-button></td></tr>";
+            echo "<button class='favorite btn btn-default btn-sm' data-id='" . $row['nid'] . "'>更换收藏夹</button></td><td>";
+            echo "<wb:share-button addition='simple' type='button' title='您的好友向您推荐：" . $row["name"] . "' url='http://118.25.102.34/hydd/products.php?search=" . $row['name'] . "'>test</wb:share-button></td></tr>";
         }
 
     } else {

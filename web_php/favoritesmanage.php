@@ -21,8 +21,18 @@ if (isset($_POST["create_favorite"])) {
     }
 }
 if (isset($_POST['fid']) && !empty($_POST['fid']) && isset($_POST['faid']) && !empty($_POST['faid'])) {
-    include_once "favoritesbean.php";    
-    if(updateFavorites($_POST['fid'], $_POST['faid'])){
-    echo "ok";
+    include_once "favoritesbean.php";
+    if (updateFavorites($_POST['fid'], $_POST['faid'])) {
+        echo "ok";
     }
+}
+if (isset($_POST['collection_id']) && !empty($_POST['collection_id'])) {
+    include_once "favoritesbean.php";
+    showFavCha($_POST['collection_id']);
+}
+
+if (isset($_POST['getTree']) && !empty($_POST['getTree'])) {
+    include_once "favoritesbean.php";
+    getTreeFav(3);
+    // showFavCha($_POST['collection_id']);
 }

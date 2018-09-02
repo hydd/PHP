@@ -112,11 +112,18 @@ function getSonInfo($uid) //得到儿子用户的部分信息
     return $all_sons;
 }
 // getAllSonsInfo(88, 3);
+
+/**
+ * When I wrote this, only God and I understood what I was doing
+ * Now, God only knows
+ * 2018.9.2
+ */
 function getAllSonsInfo($uid, $n) //获取指定用户指定代数的子孙信息 $uid 指定用户 $n 指定代数
 
 {
     static $sons = array();
     array_push($sons, getSonInfo($uid)); //默认添加儿子节点信息
+
     static $sn = 0;
 
     while ($sn < $n - 1) {

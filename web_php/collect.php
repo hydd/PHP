@@ -100,7 +100,8 @@ function checkcollection($pid) //判断是否已收藏
     }
 }
 
-function changeFavoriteType($fid, $pid)
+function changeFavoriteType($fid, $pid) //更改物品所属收藏夹
+
 {
     include "connect.php";
     $uid = getuid();
@@ -114,3 +115,4 @@ function changeFavoriteType($fid, $pid)
         return false;
     }
 }
+

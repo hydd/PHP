@@ -31,7 +31,9 @@ $(document).ready(function () {
         }, "text");
 
     });
-    $(".mycollect").click(function () {
+
+    // $(".mycollect").click(function () {
+    $(document).on('click', '#products .mycollect', function () {
         var abc = $(this);
         var pid = $(this).data("id");
         var type = $(this).data("type");
@@ -53,7 +55,7 @@ $(document).ready(function () {
         }, "text");
 
     });
-    $(".changefavorite").click(function () {
+    $(document).on('click', '#myModal_2_table .changefavorite', function () {
         var abc = $(this);
         var fid = $(this).data("id");
         var type = $(this).data("type");
@@ -76,11 +78,18 @@ $(document).ready(function () {
             }
         }, "text");
     });
-    $(".favorite").click(function () {
+    $(document).on('click', '#products .favorite', function () {
         prod = $(this);
         p_id = $(this).data("id");
-        // alert(id);
+        // alert(p_id);
         // p_id = id;
+        $.post("favoritesmanage.php", {
+            collection_id: p_id
+        }, function (data) {
+            // alert(data);
+            $('#myModal_2_table').html(data);
+            $('#myModal_2').modal('show');
+        });
     });
     $(".mycollections_m").change(function () {
         var sel = $(this);
@@ -105,9 +114,51 @@ $(document).ready(function () {
             }
         });
     });
+    $("#mycollections").change(function () {
+        $.post("dataprocessing.php", {
+            fid: $(this).val()
+        }, function (data) {
+            // alert(data);
+            $("#products").html(data);
+        });
+    });
+    $.post("favoritesmanage.php", {
+        getTree: "tree"
+    }, function (data) {
+        treedata = data;
+        // alert(data);
+        showTree(data);
+        // $("#products").html(data);
+    });
 });
 var p_id;
 var prod;
+var treedata;
+
+var testdata = [{
+    "text": "p1"
+}, {
+    "text": "p2"
+}];
+
+
+function showTree(treedata) {
+    $('#treeview').treeview({
+        color: "#428bca",
+        levels: 0,
+        expandIcon: 'glyphicon glyphicon-chevron-right',
+        collapseIcon: 'glyphicon glyphicon-chevron-down',
+        nodeIcon: 'glyphicon glyphicon-bookmark',
+        // selectedColor: 'red', //设置被选择节点的字体、图标颜色
+        data: treedata,
+        onNodeSelected: function (event, data) {
+            alert(data.text);
+            // $('#treeview').treeview('collapseAll', {
+            //     silent: true
+            // });
+        }
+    });
+}
 
 function submitForm() {
     var form = document.getElementById("show_favorite");
