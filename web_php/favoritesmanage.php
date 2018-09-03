@@ -36,3 +36,4 @@ if (isset($_POST['getTree']) && !empty($_POST['getTree'])) {
     getTreeFav(3);
     // showFavCha($_POST['collection_id']);
 }
+

@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    $(".collect").click(function () {
+    $(".collect").click(function () { //商品展示界面收藏功能
         var abc = $(this);
         var pid = $(this).data("id");
         var type = $(this).data("type");
@@ -33,7 +33,7 @@ $(document).ready(function () {
     });
 
     // $(".mycollect").click(function () {
-    $(document).on('click', '#products .mycollect', function () {
+    $(document).on('click', '#products .mycollect', function () { //个人收藏界面功能管理
         var abc = $(this);
         var pid = $(this).data("id");
         var type = $(this).data("type");
@@ -55,7 +55,7 @@ $(document).ready(function () {
         }, "text");
 
     });
-    $(document).on('click', '#myModal_2_table .changefavorite', function () {
+    $(document).on('click', '#myModal_2_table .changefavorite', function () { //更换收藏家
         var abc = $(this);
         var fid = $(this).data("id");
         var type = $(this).data("type");
@@ -78,7 +78,7 @@ $(document).ready(function () {
             }
         }, "text");
     });
-    $(document).on('click', '#products .favorite', function () {
+    $(document).on('click', '#products .favorite', function () { //修改物品所属收藏夹模态框显示
         prod = $(this);
         p_id = $(this).data("id");
         // alert(p_id);
@@ -91,7 +91,7 @@ $(document).ready(function () {
             $('#myModal_2').modal('show');
         });
     });
-    $(".mycollections_m").change(function () {
+    $(".mycollections_m").change(function () { //管理收藏夹关系
         var sel = $(this);
         var id = $(this).data("id");
         // alert($(this).data("id"));
@@ -114,7 +114,7 @@ $(document).ready(function () {
             }
         });
     });
-    $("#mycollections").change(function () {
+    $("#mycollections").change(function () { //展示我的收藏
         $.post("dataprocessing.php", {
             fid: $(this).val()
         }, function (data) {
@@ -122,7 +122,7 @@ $(document).ready(function () {
             $("#products").html(data);
         });
     });
-    $.post("favoritesmanage.php", {
+    $.post("favoritesmanage.php", { //返回收藏家
         getTree: "tree"
     }, function (data) {
         treedata = data;
@@ -130,17 +130,16 @@ $(document).ready(function () {
         showTree(data);
         // $("#products").html(data);
     });
+    $.post("dataprocessing.php", {
+        fid: 2
+    }, function (data) {
+        // alert(data);
+        $("#products").html(data);
+    });
 });
 var p_id;
 var prod;
 var treedata;
-
-var testdata = [{
-    "text": "p1"
-}, {
-    "text": "p2"
-}];
-
 
 function showTree(treedata) {
     $('#treeview').treeview({
@@ -149,13 +148,24 @@ function showTree(treedata) {
         expandIcon: 'glyphicon glyphicon-chevron-right',
         collapseIcon: 'glyphicon glyphicon-chevron-down',
         nodeIcon: 'glyphicon glyphicon-bookmark',
+        onhoverColor: 'AliceBlue',
         // selectedColor: 'red', //设置被选择节点的字体、图标颜色
         data: treedata,
         onNodeSelected: function (event, data) {
-            alert(data.text);
-            // $('#treeview').treeview('collapseAll', {
-            //     silent: true
-            // });
+            // alert(data.text);
+            var name = data.text;
+            // alert(name);
+            setTimeout(function () {
+                $('#treeview').treeview('collapseAll', {
+                    silent: true
+                });
+            }, 100);
+            $.post("dataprocessing.php", {
+                    favname: name
+                },
+                function (data) {
+                    $("#products").html(data);
+                })
         }
     });
 }

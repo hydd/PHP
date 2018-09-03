@@ -249,7 +249,7 @@ function showFavMan() //管理收藏夹界面显示
     }
 }
 // getTreeFav(3);
-// getSonByfaid(1);
+// getSonByfaid(2);
 function getSonByfaid($fid) //返回所有子收藏夹
 
 {
@@ -281,17 +281,20 @@ function getTreeFav($n) //返回导航树所需节点信息
 
 {
     static $treenodes = array();
-    $treenodes = getSonByfaid(1);
-    // print_r($treenodes);
-    foreach ($treenodes as &$tree) {
-        // print_r($tree);
-        if (array_key_exists('nodes', $tree) && $tree['nodes'] == "") {
-            unset($tree["nodes"]);
-            // $tree["nodes"] = 1;
+    $nodeid = 1;
+    $treenodes = getSonByfaid($nodeid);
+    foreach ($treenodes as &$trees) {
+        if (count(getSonByfaid(getIDByName($trees['text']))) != 0) {
+            $trees['nodes'] = getSonByfaid(getIDByName($trees['text']));
+            // print_r($trees);
+            foreach ($trees['nodes'] as &$tree) {
+                if (count(getSonByfaid(getIDByName($tree['text']))) != 0) {
+                    $tree['nodes'] = getSonByfaid(getIDByName($tree['text']));
+                }
+            }
         }
     }
     // print_r($treenodes);
     echo json_encode($treenodes);
-    // print_r(json_decode(json_encode($treenodes)));
     return json_encode($treenodes);
 }

@@ -49,7 +49,7 @@ if (!isLogin()) {
     <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
     <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
         crossorigin="anonymous"></script>
-    <script src="./js/collect.js?v=2.1"></script>
+    <script src="./js/collect.js?v=2.5"></script>
     <script src="https://cdn.bootcss.com/bootstrap-treeview/1.2.0/bootstrap-treeview.min.js"></script>
 
 </head>
@@ -138,22 +138,23 @@ include_once "favoritesbean.php";
 $collectioninfo = getAllCollectTypeInfo();
 echo "<tr><th>" . "ID" . "</th><th>" . "名称" . "</th><th>" . "简介" . "</th><th>" . "修改父收藏夹" . "</th><tr>";
 foreach ($collectioninfo as $info) {
-    echo "<tr><td>" . $info[0] . "</td><td>" . $info[1] . "</td><td>" . $info[2] . "</td><td>";
-    echo "<select class='mycollections_m form-control' id = 'mycollections_m' name='mycollections_m' data-id='" . $info[0] . "'>";
-    include_once "favoritesbean.php";
-    if ($info[3] == 1) {
-        echo "<option value=1 selected='selected'>" . "无" . "</option>";
-    }
-    $types = getAllCollectTypeInfo();
-    foreach ($types as $type) {
-        if (getFather($info[0]) == $type[0]) {
-            echo "<option value=$type[0] selected='selected'>" . $type[1] . "</option>";
-        } else {
-            echo "<option value=$type[0]>" . $type[1] . "</option>";
+    if ($info[3] != 1) {
+        echo "<tr><td>" . $info[0] . "</td><td>" . $info[1] . "</td><td>" . $info[2] . "</td><td>";
+        echo "<select class='mycollections_m form-control' id = 'mycollections_m' name='mycollections_m' data-id='" . $info[0] . "'>";
+        include_once "favoritesbean.php";
+        // if ($info[3] == 1) {
+        //     echo "<option value=1 selected='selected'>" . "无" . "</option>";
+        // }
+        $types = getAllCollectTypeInfo();
+        foreach ($types as $type) {
+            if (getFather($info[0]) == $type[0]) {
+                echo "<option value=$type[0] selected='selected'>" . $type[1] . "</option>";
+            } else {
+                echo "<option value=$type[0]>" . $type[1] . "</option>";
+            }
         }
+        echo "</select>";
     }
-    echo "</select>";
-
 }
 ?>
                     </div>
@@ -212,11 +213,14 @@ foreach ($collectioninfo as $info) {
 // ?>
                 </select>
             </div> -->
-            <div class="col-sm-2">
+            <!-- <div class="col-sm-2">
                 <h4>收藏夹</h4>
-            </div>
+            </div> -->
             <div class="col-sm-4">
                 <div id="treeview" class=""></div>
+            </div>
+             <div class="col-sm-2">
+                <!-- <h4>收藏夹</h4> -->
             </div>
             <!-- <?php
 // if (isFather($_POST['mycollections'])) {
