@@ -35,7 +35,7 @@ if (!isLogin()) {
       <div class="jumbotron">
         <h1 align="center">商品展示</h1>
         <a href="products.php?type=1" style="font-size:8" class="">全部商品</a>
-        <a href='personalInfo.php' style="font-size:8" class="col-md-offset-10">个人主页</a>
+        <a href='personalinfo.html' style="font-size:8" class="col-md-offset-10">个人主页</a>
         <!-- <p>This is a template showcasing the optional theme stylesheet included in Bootstrap. Use it as a starting point to create something more unique by building on or modifying it.</p> -->
       </div>
 

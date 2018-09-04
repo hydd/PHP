@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>邀请统计</title>
+    <style type="text/css">
+        .round_icon {
+            width: 100px;
+            height: 100px;
+            display: flex;
+            border-radius: 50%;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container theme-showcase" role="main">
+        <a href='personalinfo.html' style='text-decoration: none;'>我的主页</a>
+        <a href='logout.php' class="col-md-offset-10" style='text-decoration: none;'>退出登录</a>
+
+        <!-- Main jumbotron for a primary marketing message or call to action -->
+        <div class="jumbotron">
+            <h1 align="center">邀请信息统计</h1>
+        </div>
+
+        <div class="page-header">
+        </div>
+        <div class="row">
+            <div class="col-md-2">
+            </div>
+            <div class="col-md-8">
+                <table class="table table-hover" id="invitioninfo">
+                    <br>
+                    <img border="1" class="col-md-offset-5  round_icon" id="capthcha_img" src="selecticon.php" align="center"></img>
+                    <br>
+                    </tr>
+                </table>
+                <div id='sons'></div>
+            </div>
+            <div class="col-md-2">
+            </div>
+        </div>
+    </div>
+    </div>
+    <!-- /container -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+
+    <!-- Bootstrap core CSS -->
+    <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+        crossorigin="anonymous">
+
+
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+        crossorigin="anonymous"></script>
+    <script src="./js/share.js?v=2"></script>
+    <script src="./js/showinvition.js?v=1.2"></script>
+</body>
+
+</html>

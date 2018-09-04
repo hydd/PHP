@@ -68,7 +68,7 @@ function updatePwd($name) //更新密码
     $stmt->bind_param("ss", $pwd1, $name);
     // $stmt->execute();
     if ($stmt->execute()) {
-        echo "<script>alert('密码更新成功！');setTimeout(function(){window.location.href='personalinfo.php';},1000);
+        echo "<script>alert('密码更新成功！');setTimeout(function(){window.location.href='personalinfo.html';},1000);
         </script>";
     } else {
         die(mysqli_error($con)); //如果sql执行失败输出错误

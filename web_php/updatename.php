@@ -84,7 +84,7 @@ function updateusername($id) //使用当前用户ID修改用户名
         $stmt->execute();
         if ($stmt->execute()) {
             $_SESSION['name'] = $newname;
-            header("refresh:0;url=personalInfo.php");
+            header("refresh:0;url=personalinfo.html");
             echo "用户名修改成功呢";
             exit();
         } else {

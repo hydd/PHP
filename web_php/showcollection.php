@@ -49,7 +49,7 @@ if (!isLogin()) {
     <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
     <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
         crossorigin="anonymous"></script>
-    <script src="./js/collect.js?v=2.5"></script>
+    <script src="./js/collect.js?v=2.7"></script>
     <script src="https://cdn.bootcss.com/bootstrap-treeview/1.2.0/bootstrap-treeview.min.js"></script>
 
 </head>
@@ -177,7 +177,7 @@ foreach ($collectioninfo as $info) {
         <div class="jumbotron">
             <h1 align="center">我的收藏</h1>
             <a href="products.php?type=1" style="font-size:8" class="">全部商品</a>
-            <a href='personalInfo.php' style="font-size:8" class="col-md-offset-10">个人主页</a>
+            <a href='personalinfo.html' style="font-size:8" class="col-md-offset-10">个人主页</a>
             <!-- <p>This is a template showcasing the optional theme stylesheet included in Bootstrap. Use it as a starting point to create something more unique by building on or modifying it.</p> -->
         </div>
 

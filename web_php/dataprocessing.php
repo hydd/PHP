@@ -166,7 +166,7 @@ function getData() //返回查询内容
         } else {
             showPageBanner();
             echo '<tr><th>' . '编号' . '<th>' . '商品' . '<th>' . '简介' . '<th>' . '价格' . '<th>' . '<tr>';
-            echo "<script src='./js/collect.js?v=3'></script>";
+            echo "<script src='./js/collect.js?v=2.7'></script>";
             include_once "collect.php";
             while ($row = $result->fetch_assoc()) {
 
@@ -272,6 +272,7 @@ function getCollection($pid) //返回用户收藏内容
                 echo "<button class='mycollect btn btn-primary btn-sm' data-type='del' data-id='" . $row['nid'] . "'>取消收藏</button></td><td>";
             }
             echo "<button class='favorite btn btn-default btn-sm' data-id='" . $row['nid'] . "'>更换收藏夹</button></td><td>";
+            echo "<script src='http://tjs.sjs.sinajs.cn/open/api/js/wb.js' type='text/javascript' charset='utf-8'></script>";
             echo "<wb:share-button addition='simple' type='button' title='您的好友向您推荐：" . $row["name"] . "' url='http://118.25.102.34/hydd/products.php?search=" . $row['name'] . "'></wb:share-button></td></tr>";
         }
 
@@ -369,7 +370,7 @@ function showPageBanner() //显示分页
     $id = $_GET['sort'];
     // echo "id" . $id . "id";
     // $page_banner .= "<div class='col-md-3'>";
-    $page_banner .= "<select name='sort' class='form-control' onchange='submitForm_1();'>";
+    $page_banner .= "<select name='sort' class='form-control' onchange='submitForm();'>";
     foreach ($data as $arr) {
         $aid = $arr['id'];
         $aname = $arr['name'];

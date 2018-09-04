@@ -78,7 +78,7 @@ function saveimg($base64_image_content) //上传图片文件
                 // echo $icon;
                 rename($new_file, $icon);
                 updateiconpath($old_path);
-                header("refresh:0;url=personalInfo.php");
+                header("refresh:0;url=personalinfo.html");
                 // echo "ok";
             } else {
                 unlink($new_file);

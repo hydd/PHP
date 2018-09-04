@@ -86,7 +86,7 @@ echo "<h1 align='center'>" . $user . "的心愿单</h1>";
 // <h1 align="center">心愿单</h1>
 ?>
         <a href="products.php?type=1" style="font-size:8" class="">全部商品</a>
-        <a href='personalInfo.php' style="font-size:8" class="col-md-offset-10">个人主页</a>
+        <a href='personalinfo.html' style="font-size:8" class="col-md-offset-10">个人主页</a>
         </div>
 
         <div class="page-header">

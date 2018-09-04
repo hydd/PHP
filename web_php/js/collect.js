@@ -171,16 +171,6 @@ function showTree(treedata) {
 }
 
 function submitForm() {
-    var form = document.getElementById("show_favorite");
-    form.submit();
-}
-
-function submitForm_1() {
-    var form = document.getElementById("show_favorite");
-    form.submit();
-}
-
-function submitForm_m() {
-    var form = document.getElementById("show_favorite");
+    var form = document.getElementById("sort_choose");
     form.submit();
 }
